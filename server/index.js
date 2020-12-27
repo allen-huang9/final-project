@@ -11,10 +11,7 @@ const db = new pg.Pool({
 
 const app = express();
 
-const jsonMiddleware = express.json();
-
 app.use(staticMiddleware);
-app.use(jsonMiddleware);
 
 app.get('/api/entries/:userId', (req, res, next) => {
 
