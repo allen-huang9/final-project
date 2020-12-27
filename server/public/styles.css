@@ -48,7 +48,3 @@ p {
   width: calc(100% / 3);
   text-align: center;
 }
-
-#root {
-  text-align: center;
-}
