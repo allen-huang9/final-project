@@ -48,9 +48,6 @@ class Home extends React.Component {
           </div>
           {entryListItems}
         </div>
-        <div className="add-entry-button">
-          <i className="fas fa-plus"></i>
-        </div>
       </>
     );
   }
