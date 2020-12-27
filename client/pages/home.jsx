@@ -29,7 +29,7 @@ class Home extends React.Component {
           </div>
           <div className="entry-col">{entry.amount}</div>
           <div className="entry-col">
-            <div className="view-single-entry-button">View</div>
+            <button className="view-single-entry-button">View</button>
           </div>
         </div>
       );
