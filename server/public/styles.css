@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 header {
   background-color: #020d0d;
   height: 50px;
@@ -30,7 +34,6 @@ p {
 }
 
 .list-container {
-  font-family: 'Open Sans', sans-serif;
   overflow-y: auto;
   height: 92vh;
 }
