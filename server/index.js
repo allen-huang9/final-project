@@ -15,7 +15,7 @@ app.use(staticMiddleware);
 
 app.get('/api/entries/:userId', (req, res, next) => {
 
-  const sql = `select "entryId", "amount", "description", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date", "name" as "category"
+  const sql = `select "entryId", "amount", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date"
                from "entry" join "category" using ("categoryId")
                where "userId" = $1`;
   const userId = parseInt(req.params.userId, 10);
