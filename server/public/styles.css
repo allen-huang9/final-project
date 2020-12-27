@@ -9,13 +9,17 @@ header {
   height: 50px;
   color: whitesmoke;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   font-family: 'Poppins', sans-serif;
 }
 
+.something {
+  width: 10%;
+}
+
 p {
-  margin: auto;
+  width: 100%;
+  text-align: center;
 }
 
 .view-single-entry-button {
