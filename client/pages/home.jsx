@@ -50,7 +50,6 @@ class Home extends React.Component {
               {entryListItems}
             </tbody>
           </table>
-          {/* {entryListItems} */}
         </div>
       </>
     );
