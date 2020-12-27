@@ -23,7 +23,7 @@ class Home extends React.Component {
 
     const entryListItems = this.state.entryList.map(entry => {
       return (
-        <div key={entry.entryId} className="singleEntry-row">
+        <div key={entry.entryId} className="single-entry-row">
           <div className="entry-col">
             <div>{entry.date}</div>
           </div>
@@ -41,7 +41,7 @@ class Home extends React.Component {
           <p>APP Name</p>
         </header>
         <div className="list-container">
-          <div className="singleEntry-row">
+          <div className="single-entry-row">
             <div className="entry-col">Date</div>
             <div className="entry-col">Amount</div>
             <div className="entry-col"></div>
