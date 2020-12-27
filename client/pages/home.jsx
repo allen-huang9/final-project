@@ -23,15 +23,13 @@ class Home extends React.Component {
 
     const entryListItems = this.state.entryList.map(entry => {
       return (
-        <div key={entry.entryId} className="single-entry-row">
-          <div className="entry-col">
-            <div>{entry.date}</div>
-          </div>
-          <div className="entry-col">{entry.amount}</div>
-          <div className="entry-col">
+        <tr key={entry.entryId}>
+          <td>{entry.date}</td>
+          <td className="amount-td">${entry.amount}</td>
+          <td>
             <button className="view-single-entry-button">View</button>
-          </div>
-        </div>
+          </td>
+        </tr>
       );
     });
 
@@ -41,12 +39,18 @@ class Home extends React.Component {
           <p>APP Name</p>
         </header>
         <div className="list-container">
-          <div className="single-entry-row">
-            <div className="entry-col">Date</div>
-            <div className="entry-col">Amount</div>
-            <div className="entry-col"></div>
-          </div>
-          {entryListItems}
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th className="amount-td">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entryListItems}
+            </tbody>
+          </table>
+          {/* {entryListItems} */}
         </div>
       </>
     );

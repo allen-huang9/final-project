@@ -16,13 +16,22 @@ header {
   font-family: 'Poppins', sans-serif;
 }
 
-.something {
-  width: 10%;
-}
-
 p {
   width: 100%;
   text-align: center;
+}
+
+table {
+  width: 90%;
+  text-align: center;
+}
+
+td {
+  width: calc(100% / 3);
+}
+
+.amount-td {
+  text-align: start;
 }
 
 .view-single-entry-button {
@@ -33,20 +42,8 @@ p {
 }
 
 .list-container {
-  overflow-y: auto;
-  height: calc(100vh - 50px);
-}
-
-.single-entry-row {
-  margin: 0 auto;
-  padding: 10px 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 80%;
-}
-
-.entry-col {
-  width: calc(100% / 3);
-  text-align: center;
+  overflow-y: auto;
+  height: calc(100vh - 50px);
 }
