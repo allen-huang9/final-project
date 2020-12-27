@@ -19,14 +19,6 @@ p {
   margin: auto;
 }
 
-.burger-menu {
-  background-color: #3ea8a8;
-  font-size: 4vh;
-  position: fixed;
-  left: 8px;
-  padding: 0 7px;
-}
-
 .view-single-entry-button {
   background-color: #3ea8a8;
   border-radius: 5px;

@@ -38,9 +38,6 @@ class Home extends React.Component {
     return (
       <>
         <header>
-          <div className="burger-menu">
-            <i className="fas fa-bars"></i>
-          </div>
           <p>APP Name</p>
         </header>
         <div className="list-container">
