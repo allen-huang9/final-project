@@ -28,7 +28,7 @@ app.get('/api/entries/:userId', (req, res, next) => {
 
   db.query(sql, params)
     .then(entriesList => {
-      res.status(201).json(entriesList.rows);
+      res.status(200).json(entriesList.rows);
     })
     .catch(err => next(err));
 });
