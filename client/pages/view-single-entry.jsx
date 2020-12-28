@@ -23,15 +23,31 @@ class SingleEntry extends React.Component {
 
     return (
       <>
-      <header>
-          <p>Entry</p>
+        <header>
+          <p className="header-text">Entry</p>
         </header>
-      <div className="single-entry-container">
-        <p>Catergory: {category}</p>
-        <p>Date: {date}</p>
-        <p>Amount: {amount}</p>
-        <p>Description: {description}</p>
-      </div>
+        <div className="single-entry-container">
+          <table className="single-entry-information-table">
+            <tbody>
+              <tr>
+                <th>Category:</th>
+                <td> {category} </td>
+              </tr>
+              <tr>
+                <th>Date:</th>
+                <td> {date} </td>
+              </tr>
+              <tr>
+                <th>Amount:</th>
+                <td> ${amount} </td>
+              </tr>
+              <tr>
+                <th>Description:</th>
+                <td> {description} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </>
     );
   }

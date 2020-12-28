@@ -38,10 +38,10 @@ class Home extends React.Component {
     return (
       <>
         <header>
-          <p>APP Name</p>
+          <p className="header-text">APP Name</p>
         </header>
         <div className="list-container">
-          <table>
+          <table className="entry-list-table">
             <thead>
               <tr>
                 <th>Date</th>
