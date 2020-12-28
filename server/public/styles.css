@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+header {
+  background-color: #020d0d;
+  height: 50px;
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+p {
+  width: 100%;
+  text-align: center;
+}
+
+table {
+  width: 90%;
+  text-align: center;
+}
+
+td {
+  width: calc(100% / 3);
+}
+
+.amount-td {
+  text-align: start;
+}
+
+.view-single-entry-button {
+  background-color: #3ea8a8;
+  border-radius: 5px;
+  width: 75%;
+  margin: auto;
+}
+
+.list-container {
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+}
