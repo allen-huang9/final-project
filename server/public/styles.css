@@ -51,12 +51,8 @@ header {
 .single-entry-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 15%;
   height: calc(100vh - 50px);
-}
-
-.single-entry-container > div {
-  width: 40%;
 }
 
 .single-entry-information-table th {
