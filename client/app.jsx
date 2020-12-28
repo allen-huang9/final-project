@@ -3,11 +3,13 @@ import Home from './pages/home';
 import SingleEntry from './pages/view-single-entry';
 
 function parseRoute(hashRoute) {
-  let route = '';
   if (hashRoute.startsWith('#')) {
-    route = hashRoute.replace('#', '');
+    hashRoute = hashRoute.replace('#', '');
   }
-  return route;
+
+  const [path, queryString] = hashRoute.split('?');
+  const params = new URLSearchParams(queryString);
+  return { path, params };
 }
 
 export default class App extends React.Component {
@@ -27,12 +29,14 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.route === '') {
+    const path = this.state.route.path;
+    if (path === '') {
       return <Home />;
     }
 
-    if (this.state.route === 'single-entry') {
-      return <SingleEntry />;
+    if (path === 'single-entry') {
+      const entryId = this.state.route.params.get('entryId');
+      return <SingleEntry entryId={entryId} />;
     }
 
     return <div>Not Found</div>;
