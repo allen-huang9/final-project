@@ -27,7 +27,9 @@ class Home extends React.Component {
           <td>{entry.date}</td>
           <td className="amount-td">${entry.amount}</td>
           <td>
-            <button className="view-single-entry-button">View</button>
+            <a href="#single-entry">
+              <button className="view-single-entry-button">View</button>
+            </a>
           </td>
         </tr>
       );
