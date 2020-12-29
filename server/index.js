@@ -13,6 +13,9 @@ const app = express();
 
 app.use(staticMiddleware);
 
+/**
+ * route returns all entries that the user has
+*/
 app.get('/api/entries/:userId', (req, res, next) => {
 
   const sql = `select "entryId", "amount", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date"
@@ -29,6 +32,37 @@ app.get('/api/entries/:userId', (req, res, next) => {
   db.query(sql, params)
     .then(entriesList => {
       res.status(200).json(entriesList.rows);
+    })
+    .catch(err => next(err));
+});
+
+/**
+ * route returns a single entry
+*/
+app.get('/api/entry/:entryId', (req, res, next) => {
+
+  const sql = `select "entryId", "amount", "description", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date", "name" as "category"
+               from "entry" join "category" using ("categoryId")
+               where "entryId" = $1`;
+
+  const entryId = parseInt(req.params.entryId, 10);
+
+  if (!entryId) {
+    throw new ClientError(400, 'EntryId is required');
+  }
+
+  if (entryId < 1 || !Number.isInteger(entryId)) {
+    throw new ClientError(400, 'EntryId must be a valid number');
+  }
+
+  const param = [entryId];
+
+  db.query(sql, param)
+    .then(singleEntry => {
+      if (!singleEntry.rows[0]) {
+        throw new ClientError(404, `Cannot find entry with entryID ${entryId}`);
+      }
+      res.status(200).json(singleEntry.rows[0]);
     })
     .catch(err => next(err));
 });

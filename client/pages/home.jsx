@@ -27,7 +27,9 @@ class Home extends React.Component {
           <td>{entry.date}</td>
           <td className="amount-td">${entry.amount}</td>
           <td>
-            <button className="view-single-entry-button">View</button>
+            <a href={`#single-entry?entryId=${entry.entryId}`}>
+              <button className="view-single-entry-button">View</button>
+            </a>
           </td>
         </tr>
       );
@@ -36,10 +38,10 @@ class Home extends React.Component {
     return (
       <>
         <header>
-          <p>APP Name</p>
+          <p className="header-text">APP Name</p>
         </header>
         <div className="list-container">
-          <table>
+          <table className="entry-list-table">
             <thead>
               <tr>
                 <th>Date</th>
