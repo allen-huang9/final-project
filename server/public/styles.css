@@ -60,5 +60,6 @@ header {
 
 .single-entry-information-table th {
   width: 40%;
+  vertical-align: top;
   text-align: start;
 }
