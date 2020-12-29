@@ -62,7 +62,7 @@ app.get('/api/entry/:entryId', (req, res, next) => {
       if (!singleEntry.rows[0]) {
         throw new ClientError(404, `Cannot find entry with entryID ${entryId}`);
       }
-      res.status(200).json(singleEntry.rows);
+      res.status(200).json(singleEntry.rows[0]);
     })
     .catch(err => next(err));
 });

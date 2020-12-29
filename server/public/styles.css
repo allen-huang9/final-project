@@ -49,12 +49,16 @@ header {
 }
 
 .single-entry-container {
-  display: flex;
-  justify-content: center;
   margin-top: 15%;
   height: calc(100vh - 50px);
 }
 
+.single-entry-information-table {
+  width: 100%;
+  padding: 10px;
+}
+
 .single-entry-information-table th {
+  width: 40%;
   text-align: start;
 }

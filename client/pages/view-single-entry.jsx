@@ -19,7 +19,7 @@ class SingleEntry extends React.Component {
       return null;
     }
 
-    const { amount, description, date, category } = this.state.entry[0];
+    const { amount, description, date, category } = this.state.entry;
 
     return (
       <>

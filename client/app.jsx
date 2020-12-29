@@ -9,6 +9,7 @@ function parseRoute(hashRoute) {
 
   const [path, queryString] = hashRoute.split('?');
   const params = new URLSearchParams(queryString);
+
   return { path, params };
 }
 
