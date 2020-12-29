@@ -47,6 +47,7 @@ class SingleEntry extends React.Component {
               </tr>
             </tbody>
           </table>
+          <button>Edit</button>
         </div>
       </>
     );
