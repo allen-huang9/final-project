@@ -10,8 +10,10 @@ const db = new pg.Pool({
 });
 
 const app = express();
+const jsonMiddleWare = express.json();
 
 app.use(staticMiddleware);
+app.use(jsonMiddleWare);
 
 /**
  * route returns all entries that the user has
@@ -48,11 +50,11 @@ app.get('/api/entry/:entryId', (req, res, next) => {
   const entryId = parseInt(req.params.entryId, 10);
 
   if (!entryId) {
-    throw new ClientError(400, 'EntryId is required');
+    throw new ClientError(400, 'EntryId is required.');
   }
 
   if (entryId < 1 || !Number.isInteger(entryId)) {
-    throw new ClientError(400, 'EntryId must be a valid number');
+    throw new ClientError(400, 'EntryId must be a valid number.');
   }
 
   const param = [entryId];
@@ -60,11 +62,44 @@ app.get('/api/entry/:entryId', (req, res, next) => {
   db.query(sql, param)
     .then(singleEntry => {
       if (!singleEntry.rows[0]) {
-        throw new ClientError(404, `Cannot find entry with entryID ${entryId}`);
+        throw new ClientError(404, `Cannot find entry with entryID ${entryId}.`);
       }
       res.status(200).json(singleEntry.rows[0]);
     })
     .catch(err => next(err));
+});
+
+/**
+ * route updates a single entry and returns the affected row
+*/
+app.put('/api/edit-entry/:entryId', (req, res, next) => {
+  const sql = `update "entry" set "amount" = $1, "description" = $2, "date" = $3
+               where "entryId" = $4
+               returning *`;
+
+  const { amount, description, date } = req.body;
+  const entryId = parseInt(req.params.entryId);
+
+  if (isNaN(amount) || amount === undefined || !date || !entryId) {
+
+    throw new ClientError(400, 'Amount and Date and EntryId are required.');
+  }
+
+  const formattedAmount = parseFloat(amount.toFixed(2));
+  if (isNaN(formattedAmount) || formattedAmount === undefined) {
+    throw new ClientError(400, 'Amount must be a valid number.');
+  }
+
+  const params = [formattedAmount, description, date, entryId];
+  db.query(sql, params)
+    .then(updatedEntry => {
+      if (!updatedEntry.rows[0]) {
+        throw new ClientError(404, `Cannot find entry with entryID ${entryId}.`);
+      }
+      res.status(200).json(updatedEntry.rows[0]);
+    })
+    .catch(err => next(err));
+
 });
 
 app.use(errorMiddleware);
