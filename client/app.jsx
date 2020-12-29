@@ -1,4 +1,5 @@
 import React from 'react';
+import EditForm from './pages/edit-entry-form';
 import Home from './pages/home';
 import SingleEntry from './pages/view-single-entry';
 
@@ -38,6 +39,11 @@ export default class App extends React.Component {
     if (path === 'single-entry') {
       const entryId = this.state.route.params.get('entryId');
       return <SingleEntry entryId={entryId} />;
+    }
+
+    if (path === 'edit-form') {
+      const entryId = this.state.route.params.get('entryId');
+      return <EditForm entryId={entryId} />;
     }
 
     return <div>Not Found</div>;

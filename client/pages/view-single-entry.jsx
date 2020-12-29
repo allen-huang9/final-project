@@ -47,7 +47,9 @@ class SingleEntry extends React.Component {
               </tr>
             </tbody>
           </table>
-          <button>Edit</button>
+          <a href={`#edit-form?entryId=${this.props.entryId}`}>
+            <button>Edit</button>
+          </a>
         </div>
       </>
     );
