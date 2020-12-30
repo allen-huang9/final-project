@@ -32,6 +32,7 @@ export default class App extends React.Component {
 
   render() {
     const path = this.state.route.path;
+
     if (path === '') {
       return <Home />;
     }
@@ -47,5 +48,6 @@ export default class App extends React.Component {
     }
 
     return <div>Not Found</div>;
+
   }
 }
