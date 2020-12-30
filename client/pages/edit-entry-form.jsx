@@ -7,6 +7,11 @@ class EditForm extends React.Component {
       entry: null,
       categoryList: []
     };
+
+    this.handleChangeCategory = this.handleChangeCategory.bind(this);
+    this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeAmount = this.handleChangeAmount.bind(this);
+    this.handleChangeDescription = this.handleChangeDescription.bind(this);
   }
 
   componentDidMount() {
@@ -19,31 +24,69 @@ class EditForm extends React.Component {
       .then(categoryList => this.setState({ categoryList }));
   }
 
+  handleChangeCategory(event) {
+    const newEntry = this.state.entry;
+    newEntry.category = event.target.value;
+    this.setState({ entry: newEntry });
+  }
+
+  handleChangeDate() {
+    const newEntry = this.state.entry;
+    newEntry.date = event.target.value;
+    this.setState({ entry: newEntry });
+  }
+
+  handleChangeAmount() {
+    const newEntry = this.state.entry;
+    newEntry.amount = event.target.value;
+    this.setState({ entry: newEntry });
+  }
+
+  handleChangeDescription() {
+    const newEntry = this.state.entry;
+    newEntry.description = event.target.value;
+    this.setState({ entry: newEntry });
+  }
+
   render() {
-    // const entryInformation = this.props.entryInformation;
+
+    const entry = this.state.entry;
+    if (!entry) {
+      return <div>LOADING...</div>;
+    }
+
+    // console.log(this.state.entry);
+    // console.log(this.state.entry.date);
+    // console.log(this.state.categoryList);
+
+    const dateComponents = entry.date.split('/');
+    if (dateComponents.length > 1) {
+      entry.date = `${dateComponents[2]}-${dateComponents[0]}-${dateComponents[1]}`;
+    }
+
+    const categoryOptions = this.state.categoryList.map(category => {
+      return (
+        <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
+      );
+    });
+
     return (
       <form>
-        <div>{`Form Place Holder ${this.props.entryId}`} </div>
+        <div>{`Entry ${this.props.entryId}`} </div>
 
         <label htmlFor="category">Category</label>
-        <select>
-          <option value="">Bill</option>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
+        <select value={entry.category} onChange={this.handleChangeCategory}>
+          {categoryOptions}
         </select>
 
         <label htmlFor="amount">Amount: </label>
-        <input type="text" id="amount"></input>
+        <input type="text" id="amount" value={entry.amount} onChange={this.handleChangeAmount}></input>
 
         <label htmlFor="date">Date: </label>
-        <input type="date" id="date"></input>
+        <input type="date" id="date" value={entry.date} onChange={this.handleChangeDate}></input>
 
         <label htmlFor="description">Description:</label>
-        <input type="textfield" id="description"></input>
+        <input type="textfield" id="description" value={entry.description} onChange={this.handleChangeDescription}></input>
       </form>
     );
   }
