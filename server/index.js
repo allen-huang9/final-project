@@ -74,16 +74,17 @@ app.get('/api/entry/:entryId', (req, res, next) => {
  * route updates a single entry and returns the affected row
 */
 app.put('/api/update-entry/:entryId', (req, res, next) => {
-  const sql = `update "entry" set "amount" = $1, "description" = $2, "date" = $3
-               where "entryId" = $4
+  // change SQL statement, add categoryID to it
+  const sql = `update "entry" set "amount" = $1, "description" = $2, "date" = $3, "categoryId" = $4
+               where "entryId" = $5
                returning *`;
 
-  const { amount, description, date } = req.body;
+  const { amount, description, date, categoryId } = req.body;
   const entryId = parseInt(req.params.entryId);
 
-  if (isNaN(amount) || amount === undefined || !date || !entryId) {
+  if (isNaN(amount) || amount === undefined || !date || !entryId || !categoryId) {
 
-    throw new ClientError(400, 'Amount and Date and EntryId are required.');
+    throw new ClientError(400, 'Amount and Date and EntryId and categoryId are required.');
   }
 
   const formattedAmount = parseFloat(amount.toFixed(2));
@@ -91,7 +92,7 @@ app.put('/api/update-entry/:entryId', (req, res, next) => {
     throw new ClientError(400, 'Amount must be a valid number.');
   }
 
-  const params = [formattedAmount, description, date, entryId];
+  const params = [formattedAmount, description, date, categoryId, entryId];
   db.query(sql, params)
     .then(updatedEntry => {
       if (!updatedEntry.rows[0]) {

@@ -12,6 +12,7 @@ class EditForm extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeAmount = this.handleChangeAmount.bind(this);
     this.handleChangeDescription = this.handleChangeDescription.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,10 @@ class EditForm extends React.Component {
     this.setState({ entry: newEntry });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
   render() {
 
     const entry = this.state.entry;
@@ -56,6 +61,7 @@ class EditForm extends React.Component {
     }
 
     // console.log(this.state.entry);
+
     // console.log(this.state.entry.date);
     // console.log(this.state.categoryList);
 
@@ -71,23 +77,42 @@ class EditForm extends React.Component {
     });
 
     return (
-      <form>
-        <div>{`Entry ${this.props.entryId}`} </div>
+      <>
+      <header>
+          <p className="header-text">{`Entry ${this.props.entryId}`}</p>
+        </header>
+      <div className="edit-form">
+          <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="category">Category</label>
+            <select className="form-control" value={entry.category} onChange={this.handleChangeCategory}>
+              {categoryOptions}
+            </select>
+          </div>
 
-        <label htmlFor="category">Category</label>
-        <select value={entry.category} onChange={this.handleChangeCategory}>
-          {categoryOptions}
-        </select>
+          <div className="form-group">
+            <label htmlFor="amount">Amount </label>
+            <input className="form-control" type="text" id="amount" value={entry.amount} onChange={this.handleChangeAmount}></input>
+          </div>
 
-        <label htmlFor="amount">Amount: </label>
-        <input type="text" id="amount" value={entry.amount} onChange={this.handleChangeAmount}></input>
+          <div className="form-group">
+            <label htmlFor="date">Date </label>
+            <input className="form-control" type="date" id="date" value={entry.date} onChange={this.handleChangeDate}></input>
+          </div>
 
-        <label htmlFor="date">Date: </label>
-        <input type="date" id="date" value={entry.date} onChange={this.handleChangeDate}></input>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea className="form-control" id="description" value={entry.description} onChange={this.handleChangeDescription}></textarea>
+          </div>
 
-        <label htmlFor="description">Description:</label>
-        <input type="textfield" id="description" value={entry.description} onChange={this.handleChangeDescription}></input>
-      </form>
+          <div className="edit-button-container">
+              <a href={`#single-entry?entryId=${this.props.entryId}`}>
+              <button className="btn btn-success">Save</button>
+            </a>
+          </div>
+        </form>
+      </div>
+      </>
     );
   }
 }

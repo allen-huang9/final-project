@@ -16,6 +16,10 @@ header {
   font-family: 'Poppins', sans-serif;
 }
 
+label {
+  margin: 0;
+}
+
 .entry-list-table {
   width: 90%;
   text-align: center;
@@ -62,4 +66,15 @@ header {
   width: 40%;
   vertical-align: top;
   text-align: start;
+}
+
+.edit-button-container {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-group {
+  margin: 5px 10px;
 }
