@@ -39,7 +39,8 @@ app.get('/api/entries/:userId', (req, res, next) => {
 });
 
 /**
- * route returns a single entry
+ * route returns a single entry that only contains entryId, amount, description
+ * and category name
 */
 app.get('/api/entry/:entryId', (req, res, next) => {
 
@@ -72,7 +73,7 @@ app.get('/api/entry/:entryId', (req, res, next) => {
 /**
  * route updates a single entry and returns the affected row
 */
-app.put('/api/edit-entry/:entryId', (req, res, next) => {
+app.put('/api/update-entry/:entryId', (req, res, next) => {
   const sql = `update "entry" set "amount" = $1, "description" = $2, "date" = $3
                where "entryId" = $4
                returning *`;
@@ -100,6 +101,19 @@ app.put('/api/edit-entry/:entryId', (req, res, next) => {
     })
     .catch(err => next(err));
 
+});
+
+/**
+ * route returns the entire category table
+*/
+app.get('/api/category-table', (req, res, next) => {
+  const sql = 'select * from "category"';
+
+  db.query(sql)
+    .then(categoryList => {
+      res.status(200).send(categoryList.rows);
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
