@@ -5,14 +5,18 @@ class EditForm extends React.Component {
     super(props);
     this.state = {
       entry: null,
-      categoryList: []
+      categoryList: [],
+      amount: null,
+      date: null,
+      description: null,
+      categoryId: null
     };
 
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeAmount = this.handleChangeAmount.bind(this);
     this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -49,8 +53,20 @@ class EditForm extends React.Component {
     this.setState({ entry: newEntry });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleClick() {
+    const req = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        amount: this.state.entry.amount,
+        date: this.state.entry.date,
+        description: this.state.entry.description,
+        categoryId: this.state.entry.category
+      })
+    };
+    fetch(`/api/update-entry/${this.props.entryId}`, req);
   }
 
   render() {
@@ -59,11 +75,6 @@ class EditForm extends React.Component {
     if (!entry) {
       return <div>LOADING...</div>;
     }
-
-    // console.log(this.state.entry);
-
-    // console.log(this.state.entry.date);
-    // console.log(this.state.categoryList);
 
     const dateComponents = entry.date.split('/');
     if (dateComponents.length > 1) {
@@ -84,13 +95,14 @@ class EditForm extends React.Component {
         categoryId = categoryList[i].categoryId;
       }
     }
+
     return (
       <>
       <header>
           <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
       <div className="edit-form">
-          <form onSubmit={this.handleSubmit}>
+          <form>
           <div className="form-group">
             <label htmlFor="category">Category</label>
             <select className="form-control" value={categoryId} onChange={this.handleChangeCategory}>
@@ -114,7 +126,9 @@ class EditForm extends React.Component {
           </div>
 
           <div className="edit-button-container">
-            <a className="btn btn-success" href={`#single-entry?entryId=${this.props.entryId}`}>
+            <a className="btn btn-success"
+               href={`#single-entry?entryId=${this.props.entryId}`}
+               onClick={this.handleClick}>
               Save
             </a>
           </div>
