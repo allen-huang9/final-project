@@ -43,6 +43,13 @@ label {
   border-radius: 5px;
   width: 75%;
   margin: auto;
+  padding: 0 5px;
+  color: #020d0d;
+}
+
+.view-single-entry-button:hover {
+  color: #020d0d;
+  text-decoration: none;
 }
 
 .list-container {

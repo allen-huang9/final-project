@@ -70,22 +70,30 @@ class EditForm extends React.Component {
       entry.date = `${dateComponents[2]}-${dateComponents[0]}-${dateComponents[1]}`;
     }
 
-    const categoryOptions = this.state.categoryList.map(category => {
+    const categoryList = this.state.categoryList;
+    const categoryOptions = categoryList.map(category => {
       return (
         <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
       );
     });
 
+    let categoryId = null;
+
+    for (let i = 0; i < categoryList.length; i++) {
+      if (entry.category === categoryList[i].name) {
+        categoryId = categoryList[i].categoryId;
+      }
+    }
     return (
       <>
       <header>
-          <p className="header-text">{`Entry ${this.props.entryId}`}</p>
+          <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
       <div className="edit-form">
           <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="category">Category</label>
-            <select className="form-control" value={entry.category} onChange={this.handleChangeCategory}>
+            <select className="form-control" value={categoryId} onChange={this.handleChangeCategory}>
               {categoryOptions}
             </select>
           </div>
@@ -106,8 +114,8 @@ class EditForm extends React.Component {
           </div>
 
           <div className="edit-button-container">
-              <a href={`#single-entry?entryId=${this.props.entryId}`}>
-              <button className="btn btn-success">Save</button>
+            <a className="btn btn-success" href={`#single-entry?entryId=${this.props.entryId}`}>
+              Save
             </a>
           </div>
         </form>
