@@ -72,12 +72,12 @@ class EditForm extends React.Component {
 
     return (
       <>
-      <header>
+        <header>
           <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
-      <div className="edit-form">
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
+        <div className="h-100 mt-5 d-flex justify-content-center">
+        <form onSubmit={this.handleSubmit} className="w-100">
+            <div className="mx-2 form-group">
             <label htmlFor="category">Category</label>
             <select className="form-control"
                     name="categoryId"
@@ -87,7 +87,7 @@ class EditForm extends React.Component {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="mx-2 form-group">
             <label htmlFor="amount">Amount </label>
             <input className="form-control"
                    name="amount"
@@ -97,7 +97,7 @@ class EditForm extends React.Component {
                    onChange={this.handleChange}></input>
           </div>
 
-          <div className="form-group">
+            <div className="mx-2 form-group">
             <label htmlFor="date">Date </label>
             <input className="form-control"
                    name="date"
@@ -107,7 +107,7 @@ class EditForm extends React.Component {
                    onChange={this.handleChange}></input>
           </div>
 
-          <div className="form-group">
+            <div className="mx-2 form-group">
             <label htmlFor="description">Description</label>
             <textarea className="form-control"
                       name="description"
@@ -116,7 +116,7 @@ class EditForm extends React.Component {
                       onChange={this.handleChange}></textarea>
           </div>
 
-          <div className="edit-button-container">
+          <div className="d-flex justify-content-center mt-3">
             <button className="btn btn-success">Save</button>
           </div>
         </form>

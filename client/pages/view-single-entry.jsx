@@ -27,27 +27,27 @@ class SingleEntry extends React.Component {
           <p className="header-text">Entry</p>
         </header>
         <div className="single-entry-container">
-          <table className="single-entry-information-table">
+          <table className="mx-2 w-100 p-1">
             <tbody>
               <tr>
-                <th>Category:</th>
+                <th className="entry-information-table-th">Category:</th>
                 <td> {category} </td>
               </tr>
               <tr>
-                <th>Date:</th>
+                <th className="entry-information-table-th">Date:</th>
                 <td> {date} </td>
               </tr>
               <tr>
-                <th>Amount:</th>
+                <th className="entry-information-table-th">Amount:</th>
                 <td> ${amount} </td>
               </tr>
               <tr>
-                <th>Description:</th>
+                <th className="entry-information-table-th">Description:</th>
                 <td> {description} </td>
               </tr>
             </tbody>
           </table>
-          <div className="edit-button-container">
+          <div className="d-flex justify-content-center mt-3">
             <a className="btn btn-success" href={`#edit-form?entryId=${this.props.entryId}`}>
               Edit
             </a>
