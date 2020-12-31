@@ -5,11 +5,7 @@ class EditForm extends React.Component {
     super(props);
     this.state = {
       entry: null,
-      categoryList: [],
-      amount: null,
-      date: null,
-      description: null,
-      categoryId: null
+      categoryList: []
     };
 
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
@@ -31,7 +27,7 @@ class EditForm extends React.Component {
 
   handleChangeCategory(event) {
     const newEntry = this.state.entry;
-    newEntry.category = event.target.value;
+    newEntry.categoryId = event.target.value;
     this.setState({ entry: newEntry });
   }
 
@@ -63,7 +59,7 @@ class EditForm extends React.Component {
         amount: this.state.entry.amount,
         date: this.state.entry.date,
         description: this.state.entry.description,
-        categoryId: this.state.entry.category
+        categoryId: this.state.entry.categoryId
       })
     };
     fetch(`/api/update-entry/${this.props.entryId}`, req);
@@ -88,14 +84,6 @@ class EditForm extends React.Component {
       );
     });
 
-    let categoryId = null;
-
-    for (let i = 0; i < categoryList.length; i++) {
-      if (entry.category === categoryList[i].name) {
-        categoryId = categoryList[i].categoryId;
-      }
-    }
-
     return (
       <>
       <header>
@@ -105,7 +93,7 @@ class EditForm extends React.Component {
           <form>
           <div className="form-group">
             <label htmlFor="category">Category</label>
-            <select className="form-control" value={categoryId} onChange={this.handleChangeCategory}>
+            <select className="form-control" value={entry.categoryId} onChange={this.handleChangeCategory}>
               {categoryOptions}
             </select>
           </div>

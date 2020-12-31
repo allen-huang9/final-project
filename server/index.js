@@ -39,12 +39,12 @@ app.get('/api/entries/:userId', (req, res, next) => {
 });
 
 /**
- * route returns a single entry that only contains entryId, amount, description
+ * route returns a single entry that contains entryId, categoryId, amount, description
  * and category name
 */
 app.get('/api/entry/:entryId', (req, res, next) => {
 
-  const sql = `select "entryId", "amount", "description", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date", "name" as "category"
+  const sql = `select "entryId", "amount", "description", "entry"."categoryId", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date", "name" as "category"
                from "entry" join "category" using ("categoryId")
                where "entryId" = $1`;
 
