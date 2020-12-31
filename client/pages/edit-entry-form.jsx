@@ -8,10 +8,7 @@ class EditForm extends React.Component {
       categoryList: []
     };
 
-    this.handleChangeCategory = this.handleChangeCategory.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeAmount = this.handleChangeAmount.bind(this);
-    this.handleChangeDescription = this.handleChangeDescription.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -25,27 +22,10 @@ class EditForm extends React.Component {
       .then(categoryList => this.setState({ categoryList }));
   }
 
-  handleChangeCategory(event) {
+  handleChange(event) {
+    const name = event.target.name;
     const newEntry = this.state.entry;
-    newEntry.categoryId = event.target.value;
-    this.setState({ entry: newEntry });
-  }
-
-  handleChangeDate() {
-    const newEntry = this.state.entry;
-    newEntry.date = event.target.value;
-    this.setState({ entry: newEntry });
-  }
-
-  handleChangeAmount() {
-    const newEntry = this.state.entry;
-    newEntry.amount = event.target.value;
-    this.setState({ entry: newEntry });
-  }
-
-  handleChangeDescription() {
-    const newEntry = this.state.entry;
-    newEntry.description = event.target.value;
+    newEntry[name] = event.target.value;
     this.setState({ entry: newEntry });
   }
 
@@ -96,27 +76,44 @@ class EditForm extends React.Component {
           <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
       <div className="edit-form">
-          <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="category">Category</label>
-            <select className="form-control" value={entry.categoryId} onChange={this.handleChangeCategory}>
+            <select className="form-control"
+                    name="categoryId"
+                    value={entry.categoryId}
+                    onChange={this.handleChange}>
               {categoryOptions}
             </select>
           </div>
 
           <div className="form-group">
             <label htmlFor="amount">Amount </label>
-            <input className="form-control" type="text" id="amount" value={entry.amount} onChange={this.handleChangeAmount}></input>
+            <input className="form-control"
+                   name="amount"
+                   type="text"
+                   id="amount"
+                   value={entry.amount}
+                   onChange={this.handleChange}></input>
           </div>
 
           <div className="form-group">
             <label htmlFor="date">Date </label>
-            <input className="form-control" type="date" id="date" value={entry.date} onChange={this.handleChangeDate}></input>
+            <input className="form-control"
+                   name="date"
+                   type="date"
+                   id="date"
+                   value={entry.date}
+                   onChange={this.handleChange}></input>
           </div>
 
           <div className="form-group">
             <label htmlFor="description">Description</label>
-            <textarea className="form-control" id="description" value={entry.description} onChange={this.handleChangeDescription}></textarea>
+            <textarea className="form-control"
+                      name="description"
+                      id="description"
+                      value={entry.description}
+                      onChange={this.handleChange}></textarea>
           </div>
 
           <div className="edit-button-container">
