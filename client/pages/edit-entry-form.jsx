@@ -76,51 +76,51 @@ class EditForm extends React.Component {
           <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
         <div className="h-100 mt-5 d-flex justify-content-center">
-        <form onSubmit={this.handleSubmit} className="w-100">
-            <div className="mx-2 form-group">
-            <label htmlFor="category">Category</label>
-            <select className="form-control"
-                    name="categoryId"
-                    value={entry.categoryId}
-                    onChange={this.handleChange}>
-              {categoryOptions}
-            </select>
-          </div>
-
-          <div className="mx-2 form-group">
-            <label htmlFor="amount">Amount </label>
-            <input className="form-control"
-                   name="amount"
-                   type="text"
-                   id="amount"
-                   value={entry.amount}
-                   onChange={this.handleChange}></input>
-          </div>
+          <form onSubmit={this.handleSubmit} className="w-100">
+              <div className="mx-2 form-group">
+              <label htmlFor="category">Category</label>
+              <select className="form-control"
+                      name="categoryId"
+                      value={entry.categoryId}
+                      onChange={this.handleChange}>
+                {categoryOptions}
+              </select>
+            </div>
 
             <div className="mx-2 form-group">
-            <label htmlFor="date">Date </label>
-            <input className="form-control"
-                   name="date"
-                   type="date"
-                   id="date"
-                   value={entry.date}
-                   onChange={this.handleChange}></input>
-          </div>
+              <label htmlFor="amount">Amount </label>
+              <input className="form-control"
+                    name="amount"
+                    type="text"
+                    id="amount"
+                    value={entry.amount}
+                    onChange={this.handleChange}></input>
+            </div>
 
-            <div className="mx-2 form-group">
-            <label htmlFor="description">Description</label>
-            <textarea className="form-control"
-                      name="description"
-                      id="description"
-                      value={entry.description}
-                      onChange={this.handleChange}></textarea>
-          </div>
+              <div className="mx-2 form-group">
+              <label htmlFor="date">Date </label>
+              <input className="form-control"
+                    name="date"
+                    type="date"
+                    id="date"
+                    value={entry.date}
+                    onChange={this.handleChange}></input>
+            </div>
 
-          <div className="d-flex justify-content-center mt-3">
-            <button className="btn btn-success">Save</button>
-          </div>
-        </form>
-      </div>
+              <div className="mx-2 form-group">
+              <label htmlFor="description">Description</label>
+              <textarea className="form-control"
+                        name="description"
+                        id="description"
+                        value={entry.description}
+                        onChange={this.handleChange}></textarea>
+            </div>
+
+            <div className="d-flex justify-content-center mt-3">
+              <button className="btn btn-success">Save</button>
+            </div>
+          </form>
+        </div>
       </>
     );
   }
