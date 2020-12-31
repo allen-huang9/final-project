@@ -7,6 +7,7 @@ class Home extends React.Component {
       entryList: []
     };
     this.handleClickView = this.handleClickView.bind(this);
+    this.handleClickAdd = this.handleClickAdd.bind(this);
   }
 
   componentDidMount() {
@@ -22,6 +23,10 @@ class Home extends React.Component {
 
   handleClickView(event) {
     window.location.hash = `#single-entry?entryId=${event.target.value}`;
+  }
+
+  handleClickAdd() {
+    window.location.hash = '#add-entry';
   }
 
   render() {
@@ -57,6 +62,11 @@ class Home extends React.Component {
               {entryListItems}
             </tbody>
           </table>
+          <div className="add-entry-button d-flex
+                          justify-content-center align-items-center"
+                onClick={this.handleClickAdd}>
+            <i className="fas fa-plus"></i>
+          </div>
         </div>
       </>
     );

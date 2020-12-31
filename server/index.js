@@ -117,6 +117,36 @@ app.get('/api/category-table', (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * route inserts a new row to the entry table
+ */
+app.post('/api/add-entry', (req, res, next) => {
+  const sql = `insert into "entry" ("userId", "categoryId", "amount", "description", "date")
+                values ($1, $2, $3, $4, $5)`;
+
+  const { userId, categoryId, amount, description, date } = req.body;
+
+  if (!userId || !categoryId || !amount || !date) {
+    throw new ClientError(400, 'userId, categoryId, amount, and date are required.');
+  }
+
+  if (!Number.isInteger(userId) || !Number.isInteger(categoryId) || isNaN(amount)) {
+    throw new ClientError(400, 'userId, categoryId and amount must be valid numbers');
+  }
+
+  if (!Date.parse(date)) {
+    throw new ClientError(400, 'date must be a valid date');
+  }
+
+  const params = [userId, categoryId, amount, description, date];
+
+  db.query(sql, params)
+    .then(createdEntry => {
+      res.sendStatus(200);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
