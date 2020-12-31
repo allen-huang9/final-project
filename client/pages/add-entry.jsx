@@ -6,13 +6,17 @@ class AddEntry extends React.Component {
     const dateObject = new Date();
     this.state = {
       categoryList: [],
-      categoryId: null,
-      date: `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()}`,
-      amount: '',
-      description: '',
-      userId: 1
+      entry: {
+        categoryId: null,
+        date: `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()}`,
+        amount: '',
+        description: '',
+        userId: 1
+      }
+
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -24,13 +28,30 @@ class AddEntry extends React.Component {
 
   handleChange(event) {
     const name = event.target.name;
-    const newEntry = this.state;
+    const newEntry = this.state.entry;
     newEntry[name] = event.target.value;
-    this.setState(newEntry);
+    this.setState({ entry: newEntry });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state.entry)
+    };
+
+    fetch('/api/add-entry', req)
+      .then(response => {
+        const form = document.querySelector('form');
+        form.reset();
+      });
   }
 
   render() {
-    // console.log('state: ', this.state);
 
     const categoryOptions = this.state.categoryList.map(category => {
       return (
@@ -38,6 +59,7 @@ class AddEntry extends React.Component {
       );
     });
 
+    const entry = this.state.entry;
     return (
       <>
         <header>
@@ -69,7 +91,7 @@ class AddEntry extends React.Component {
                 name="date"
                 type="date"
                 id="date"
-                value={this.state.date}
+                value={entry.date}
                 onChange={this.handleChange}></input>
             </div>
 

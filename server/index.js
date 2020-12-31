@@ -130,7 +130,10 @@ app.post('/api/add-entry', (req, res, next) => {
     throw new ClientError(400, 'userId, categoryId, amount, and date are required.');
   }
 
-  if (!Number.isInteger(userId) || !Number.isInteger(categoryId) || isNaN(amount)) {
+  const numUserId = parseInt(userId);
+  const numCategoryId = parseInt(categoryId);
+
+  if (!Number.isInteger(numUserId) || !Number.isInteger(numCategoryId) || isNaN(amount)) {
     throw new ClientError(400, 'userId, categoryId and amount must be valid numbers');
   }
 
@@ -138,7 +141,7 @@ app.post('/api/add-entry', (req, res, next) => {
     throw new ClientError(400, 'date must be a valid date');
   }
 
-  const params = [userId, categoryId, amount, description, date];
+  const params = [numUserId, numCategoryId, amount, description, date];
 
   db.query(sql, params)
     .then(createdEntry => {
