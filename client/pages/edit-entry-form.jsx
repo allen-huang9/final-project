@@ -12,7 +12,7 @@ class EditForm extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeAmount = this.handleChangeAmount.bind(this);
     this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +49,8 @@ class EditForm extends React.Component {
     this.setState({ entry: newEntry });
   }
 
-  handleClick() {
+  handleSubmit(event) {
+    event.preventDefault();
     const req = {
       method: 'PUT',
       headers: {
@@ -62,7 +63,12 @@ class EditForm extends React.Component {
         categoryId: this.state.entry.categoryId
       })
     };
-    fetch(`/api/update-entry/${this.props.entryId}`, req);
+
+    fetch(`/api/update-entry/${this.props.entryId}`, req)
+      .then(respone => {
+        window.location.hash = `#single-entry?entryId=${this.props.entryId}`;
+      });
+
   }
 
   render() {
@@ -90,7 +96,7 @@ class EditForm extends React.Component {
           <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
       <div className="edit-form">
-          <form>
+          <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="category">Category</label>
             <select className="form-control" value={entry.categoryId} onChange={this.handleChangeCategory}>
@@ -114,11 +120,7 @@ class EditForm extends React.Component {
           </div>
 
           <div className="edit-button-container">
-            <a className="btn btn-success"
-               href={`#single-entry?entryId=${this.props.entryId}`}
-               onClick={this.handleClick}>
-              Save
-            </a>
+            <button className="btn btn-success">Save</button>
           </div>
         </form>
       </div>
