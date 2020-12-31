@@ -10,8 +10,10 @@ const db = new pg.Pool({
 });
 
 const app = express();
+const jsonMiddleWare = express.json();
 
 app.use(staticMiddleware);
+app.use(jsonMiddleWare);
 
 /**
  * route returns all entries that the user has
@@ -37,22 +39,23 @@ app.get('/api/entries/:userId', (req, res, next) => {
 });
 
 /**
- * route returns a single entry
+ * route returns a single entry that contains entryId, categoryId, amount, description
+ * and category name
 */
 app.get('/api/entry/:entryId', (req, res, next) => {
 
-  const sql = `select "entryId", "amount", "description", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date", "name" as "category"
+  const sql = `select "entryId", "amount", "description", "entry"."categoryId", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date", "name" as "category"
                from "entry" join "category" using ("categoryId")
                where "entryId" = $1`;
 
   const entryId = parseInt(req.params.entryId, 10);
 
   if (!entryId) {
-    throw new ClientError(400, 'EntryId is required');
+    throw new ClientError(400, 'EntryId is required.');
   }
 
   if (entryId < 1 || !Number.isInteger(entryId)) {
-    throw new ClientError(400, 'EntryId must be a valid number');
+    throw new ClientError(400, 'EntryId must be a valid number.');
   }
 
   const param = [entryId];
@@ -60,9 +63,56 @@ app.get('/api/entry/:entryId', (req, res, next) => {
   db.query(sql, param)
     .then(singleEntry => {
       if (!singleEntry.rows[0]) {
-        throw new ClientError(404, `Cannot find entry with entryID ${entryId}`);
+        throw new ClientError(404, `Cannot find entry with entryID ${entryId}.`);
       }
       res.status(200).json(singleEntry.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
+/**
+ * route updates a single entry and returns the affected row
+*/
+app.put('/api/update-entry/:entryId', (req, res, next) => {
+  const sql = `update "entry" set "amount" = $1, "description" = $2, "date" = $3, "categoryId" = $4
+               where "entryId" = $5
+               returning *`;
+
+  const { amount, description, date, categoryId } = req.body;
+  const entryId = parseInt(req.params.entryId);
+
+  if (isNaN(amount) || amount === undefined || !date || !entryId || !categoryId) {
+
+    throw new ClientError(400, 'Amount and Date and EntryId and categoryId are required.');
+  }
+
+  const formattedAmount = parseFloat(amount);
+  const categoryIdNumber = parseInt(categoryId);
+  if (isNaN(formattedAmount) || formattedAmount === undefined || isNaN(categoryIdNumber) || categoryIdNumber === undefined) {
+    throw new ClientError(400, 'Amount and categoryId must be a valid number.');
+  }
+
+  const params = [formattedAmount, description, date, categoryIdNumber, entryId];
+  db.query(sql, params)
+    .then(updatedEntry => {
+      if (!updatedEntry.rows[0]) {
+        throw new ClientError(404, `Cannot find entry with entryID ${entryId}.`);
+      }
+      res.status(200).json(updatedEntry.rows[0]);
+    })
+    .catch(err => next(err));
+
+});
+
+/**
+ * route returns the entire category table
+*/
+app.get('/api/category-table', (req, res, next) => {
+  const sql = 'select * from "category"';
+
+  db.query(sql)
+    .then(categoryList => {
+      res.status(200).send(categoryList.rows);
     })
     .catch(err => next(err));
 });

@@ -39,6 +39,13 @@ header {
   border-radius: 5px;
   width: 75%;
   margin: auto;
+  padding: 0 5px;
+  color: #020d0d;
+}
+
+.view-single-entry-button:hover {
+  color: #020d0d;
+  text-decoration: none;
 }
 
 .list-container {
@@ -53,13 +60,12 @@ header {
   height: calc(100vh - 50px);
 }
 
-.single-entry-information-table {
-  width: 100%;
-  padding: 10px;
-}
-
-.single-entry-information-table th {
+.entry-information-table-th {
   width: 40%;
   vertical-align: top;
   text-align: start;
+}
+
+#root {
+  height: 100vh;
 }

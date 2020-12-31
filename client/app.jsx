@@ -1,4 +1,5 @@
 import React from 'react';
+import EditForm from './pages/edit-entry-form';
 import Home from './pages/home';
 import SingleEntry from './pages/view-single-entry';
 
@@ -31,6 +32,7 @@ export default class App extends React.Component {
 
   render() {
     const path = this.state.route.path;
+
     if (path === '') {
       return <Home />;
     }
@@ -40,6 +42,12 @@ export default class App extends React.Component {
       return <SingleEntry entryId={entryId} />;
     }
 
+    if (path === 'edit-form') {
+      const entryId = this.state.route.params.get('entryId');
+      return <EditForm entryId={entryId} />;
+    }
+
     return <div>Not Found</div>;
+
   }
 }
