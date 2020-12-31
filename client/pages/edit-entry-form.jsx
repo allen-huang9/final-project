@@ -73,7 +73,7 @@ class EditForm extends React.Component {
     }
 
     const dateComponents = entry.date.split('/');
-    if (dateComponents.length > 1) {
+    if (dateComponents.length === 3) {
       entry.date = `${dateComponents[2]}-${dateComponents[0]}-${dateComponents[1]}`;
     }
 
