@@ -6,6 +6,7 @@ class Home extends React.Component {
     this.state = {
       entryList: []
     };
+    this.handleClickView = this.handleClickView.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +20,10 @@ class Home extends React.Component {
       .catch(err => console.error(err));
   }
 
+  handleClickView(event) {
+    window.location.hash = `#single-entry?entryId=${event.target.value}`;
+  }
+
   render() {
 
     const entryListItems = this.state.entryList.map(entry => {
@@ -27,9 +32,9 @@ class Home extends React.Component {
           <td>{entry.date}</td>
           <td className="amount-td">${entry.amount}</td>
           <td>
-            <a className="view-single-entry-button" href={`#single-entry?entryId=${entry.entryId}`}>
-              view
-            </a>
+            <button className="view-single-entry-button"
+                    value={entry.entryId}
+                    onClick={this.handleClickView}>View</button>
           </td>
         </tr>
       );
