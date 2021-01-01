@@ -37,9 +37,10 @@ class Home extends React.Component {
           <td>{entry.date}</td>
           <td className="amount-td">${entry.amount}</td>
           <td>
-            <button className="view-single-entry-button"
-                    value={entry.entryId}
-                    onClick={this.handleClickView}>View</button>
+            <a className="view-single-entry-button"
+              href={`#single-entry?entryId=${entry.entryId}`}>
+                View
+            </a>
           </td>
         </tr>
       );
