@@ -7,7 +7,7 @@ class AddEntry extends React.Component {
     this.state = {
       categoryList: [],
       entry: {
-        categoryId: null,
+        categoryId: 1,
         date: `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()}`,
         amount: '',
         description: '',
@@ -46,8 +46,16 @@ class AddEntry extends React.Component {
 
     fetch('/api/add-entry', req)
       .then(response => {
-        const form = document.querySelector('form');
-        form.reset();
+        const dateObject = new Date();
+        const defaultValue = {
+          categoryId: 1,
+          date: `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()}`,
+          amount: '',
+          description: '',
+          userId: 1
+        };
+
+        this.setState({ entry: defaultValue });
       });
   }
 
@@ -60,6 +68,7 @@ class AddEntry extends React.Component {
     });
 
     const entry = this.state.entry;
+
     return (
       <>
         <header>
@@ -71,6 +80,7 @@ class AddEntry extends React.Component {
               <label htmlFor="category">Category</label>
               <select className="form-control"
                 name="categoryId"
+                value={entry.categoryId}
                 onChange={this.handleChange}>
                 {categoryOptions}
               </select>
@@ -82,6 +92,7 @@ class AddEntry extends React.Component {
                 name="amount"
                 type="text"
                 id="amount"
+                value={entry.amount}
                 onChange={this.handleChange}></input>
             </div>
 
@@ -100,6 +111,7 @@ class AddEntry extends React.Component {
               <textarea className="form-control"
                 name="description"
                 id="description"
+                value={entry.description}
                 onChange={this.handleChange}></textarea>
             </div>
 
