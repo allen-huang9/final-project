@@ -6,17 +6,12 @@ class SingleEntry extends React.Component {
     this.state = {
       entry: null
     };
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
     fetch(`/api/entry/${this.props.entryId}`)
       .then(response => response.json())
       .then(entry => this.setState({ entry }));
-  }
-
-  handleClick() {
-    window.location.hash = `#edit-form?entryId=${this.props.entryId}`;
   }
 
   render() {
@@ -53,7 +48,10 @@ class SingleEntry extends React.Component {
             </tbody>
           </table>
           <div className="d-flex justify-content-center mt-3">
-            <button className="btn btn-success" onClick={this.handleClick}>Edit</button>
+            <a className="btn btn-success"
+               href={`#edit-form?entryId=${this.props.entryId}`}>
+                 Edit
+            </a>
           </div>
         </div>
       </>

@@ -6,7 +6,6 @@ class Home extends React.Component {
     this.state = {
       entryList: []
     };
-    this.handleClickView = this.handleClickView.bind(this);
     this.handleClickAdd = this.handleClickAdd.bind(this);
   }
 
@@ -19,10 +18,6 @@ class Home extends React.Component {
         });
       })
       .catch(err => console.error(err));
-  }
-
-  handleClickView(event) {
-    window.location.hash = `#single-entry?entryId=${event.target.value}`;
   }
 
   handleClickAdd() {
