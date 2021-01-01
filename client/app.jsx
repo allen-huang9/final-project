@@ -1,7 +1,8 @@
 import React from 'react';
-import EditForm from './pages/edit-entry-form';
 import Home from './pages/home';
 import SingleEntry from './pages/view-single-entry';
+import AddEntry from './pages/add-entry';
+import EditForm from './pages/edit-entry-form';
 
 function parseRoute(hashRoute) {
   if (hashRoute.startsWith('#')) {
@@ -45,6 +46,10 @@ export default class App extends React.Component {
     if (path === 'edit-form') {
       const entryId = this.state.route.params.get('entryId');
       return <EditForm entryId={entryId} />;
+    }
+
+    if (path === 'add-entry') {
+      return <AddEntry />;
     }
 
     return <div>Not Found</div>;

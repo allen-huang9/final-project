@@ -48,8 +48,9 @@ class SingleEntry extends React.Component {
             </tbody>
           </table>
           <div className="d-flex justify-content-center mt-3">
-            <a className="btn btn-success" href={`#edit-form?entryId=${this.props.entryId}`}>
-              Edit
+            <a className="btn btn-success"
+               href={`#edit-form?entryId=${this.props.entryId}`}>
+                 Edit
             </a>
           </div>
         </div>
