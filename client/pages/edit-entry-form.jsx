@@ -1,4 +1,5 @@
 import React from 'react';
+import Menu from '../components/menu-component';
 
 class EditForm extends React.Component {
   constructor(props) {
@@ -73,6 +74,7 @@ class EditForm extends React.Component {
     return (
       <>
         <header>
+          <Menu />
           <p className="header-text">{`Entry ${entry.entryId}`}</p>
         </header>
         <div className="h-100 mt-5 d-flex justify-content-center">

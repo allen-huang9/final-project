@@ -1,4 +1,5 @@
 import React from 'react';
+import Menu from '../components/menu-component';
 
 class AddEntry extends React.Component {
   constructor(props) {
@@ -72,6 +73,7 @@ class AddEntry extends React.Component {
     return (
       <>
         <header>
+          <Menu />
           <p className="header-text">Add Entry</p>
         </header>
         <div className="h-100 mt-5 d-flex justify-content-center">

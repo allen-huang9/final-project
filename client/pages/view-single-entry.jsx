@@ -1,4 +1,5 @@
 import React from 'react';
+import Menu from '../components/menu-component';
 
 class SingleEntry extends React.Component {
   constructor(props) {
@@ -24,10 +25,11 @@ class SingleEntry extends React.Component {
     return (
       <>
         <header>
+          <Menu />
           <p className="header-text">Entry</p>
         </header>
         <div className="single-entry-container">
-          <table className="mx-2 w-100 p-1">
+          <table className="w-100 p-1">
             <tbody>
               <tr>
                 <th className="entry-information-table-th">Category:</th>
