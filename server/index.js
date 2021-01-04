@@ -155,12 +155,23 @@ app.post('/api/add-entry', (req, res, next) => {
  */
 app.get('/api/monthly-expense/:userId', (req, res, next) => {
 
+  const sql = `select sum("amount"), TO_CHAR("date" :: DATE, 'Monthyyyy') as "date"
+               from (select "amount", "date" from "entry" where "userId" = $1) as "userEntries"
+               group by TO_CHAR("date" :: DATE, 'Monthyyyy')`;
+
   const userId = parseInt(req.params.userId, 10);
 
   if (!userId || userId < 0 || !Number.isInteger(userId)) {
     throw new ClientError(401, 'User must be logged in');
   }
 
+  const params = [userId];
+
+  db.query(sql, params)
+    .then(monthlyExpenseList => {
+      res.status(200).json(monthlyExpenseList.rows);
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
