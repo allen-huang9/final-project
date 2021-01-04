@@ -9,8 +9,14 @@ class Menu extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-    this.setState({ isOpen: !this.state.isOpen });
+  handleClick(event) {
+    if (event.target.className !== 'open-menu') {
+      this.setState({ isOpen: !this.state.isOpen });
+    }
+  }
+
+  handleClickMenuOpen() {
+    this.setState({ isOpen: true });
   }
 
   render() {
@@ -18,7 +24,7 @@ class Menu extends React.Component {
     let displayStatus = 'd-none';
 
     if (this.state.isOpen) {
-      displayStatus = 'open-menu';
+      displayStatus = 'show-menu';
     }
 
     return (
@@ -26,9 +32,12 @@ class Menu extends React.Component {
         <div className="burger-menu" onClick={this.handleClick}>
           <i className="fas fa-bars"></i>
         </div>
-        <div className={displayStatus}>
-          <a href='#'>Home</a>
+        <div className={displayStatus} onClick={this.handleClick}>
+          <div className='open-menu'>
+            <a className='d-flex justify-content-center align-items-center' href='#'>Home</a>
+          </div>
         </div>
+
       </>
     );
   }

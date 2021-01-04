@@ -24,9 +24,6 @@ header {
 .burger-menu {
   background-color: #3ea8a8;
   font-size: 2rem;
-
-  /* position: fixed;
-  left: 8px; */
   width: 45px;
   padding: 0 7px;
 }
@@ -79,8 +76,6 @@ header {
 .single-entry-container {
   padding-top: 15%;
   height: calc(100vh - 50px);
-
-  /* width: 100; */
 }
 
 .single-entry-container th,
@@ -94,12 +89,27 @@ header {
   text-align: start;
 }
 
-.open-menu {
+.show-menu {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
+  height: calc(100vh - 50px);
+  bottom: 0;
+}
+
+.open-menu {
   width: 40%;
   height: calc(100vh - 50px);
+  background-color: white;
+}
+
+.open-menu a {
+  height: 10%;
+  text-decoration: none;
+}
+
+.open-menu a:hover {
   background-color: #3ea8a8;
-  bottom: 0;
 }
 
 #root {
