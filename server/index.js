@@ -155,6 +155,12 @@ app.post('/api/add-entry', (req, res, next) => {
  */
 app.get('/api/monthly-expense/:userId', (req, res, next) => {
 
+  const userId = parseInt(req.params.userId, 10);
+
+  if (!userId || userId < 0 || !Number.isInteger(userId)) {
+    throw new ClientError(401, 'User must be logged in');
+  }
+
 });
 
 app.use(errorMiddleware);
