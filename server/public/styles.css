@@ -112,6 +112,10 @@ header {
   background-color: #3ea8a8;
 }
 
+.monthly-expense-list-table {
+  width: 90%;
+}
+
 #root {
   height: 100vh;
 }
