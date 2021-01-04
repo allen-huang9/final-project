@@ -150,6 +150,13 @@ app.post('/api/add-entry', (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * route returns a list of total sum spent for each month by the user
+ */
+app.get('/api/monthly-expense/:userId', (req, res, next) => {
+
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
