@@ -3,6 +3,7 @@ import Home from './pages/home';
 import SingleEntry from './pages/view-single-entry';
 import AddEntry from './pages/add-entry';
 import EditForm from './pages/edit-entry-form';
+import MonthlyExpenseList from './pages/monthly-expense-list';
 
 function parseRoute(hashRoute) {
   if (hashRoute.startsWith('#')) {
@@ -50,6 +51,10 @@ export default class App extends React.Component {
 
     if (path === 'add-entry') {
       return <AddEntry />;
+    }
+
+    if (path === 'monthly-expense') {
+      return <MonthlyExpenseList />;
     }
 
     return <div>Not Found</div>;
