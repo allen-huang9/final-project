@@ -15,10 +15,6 @@ class Menu extends React.Component {
     }
   }
 
-  handleClickMenuOpen() {
-    this.setState({ isOpen: true });
-  }
-
   render() {
 
     let displayStatus = 'd-none';
