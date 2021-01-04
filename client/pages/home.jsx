@@ -1,4 +1,5 @@
 import React from 'react';
+import Menu from '../components/menu-component';
 
 class Home extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class Home extends React.Component {
     return (
       <>
         <header>
+          <Menu />
           <p className="header-text">APP Name</p>
         </header>
         <div className="list-container">

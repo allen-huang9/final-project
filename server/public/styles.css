@@ -16,6 +16,18 @@ header {
   font-family: 'Poppins', sans-serif;
 }
 
+.header-text {
+  width: calc(100% - 90px);
+  text-align: center;
+}
+
+.burger-menu {
+  background-color: #3ea8a8;
+  font-size: 2rem;
+  width: 45px;
+  padding: 0 7px;
+}
+
 .add-entry-button {
   font-size: 2rem;
   background-color: #3ea8a8;
@@ -34,11 +46,6 @@ header {
 
 .entry-list-table td {
   width: calc(100% / 3);
-}
-
-.header-text {
-  width: 100%;
-  text-align: center;
 }
 
 .amount-td {
@@ -67,14 +74,42 @@ header {
 }
 
 .single-entry-container {
-  margin-top: 15%;
+  padding-top: 15%;
   height: calc(100vh - 50px);
+}
+
+.single-entry-container th,
+.single-entry-container td {
+  padding-left: 10px;
 }
 
 .entry-information-table-th {
   width: 40%;
   vertical-align: top;
   text-align: start;
+}
+
+.show-menu {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  height: calc(100vh - 50px);
+  bottom: 0;
+}
+
+.open-menu {
+  width: 140px;
+  height: calc(100vh - 50px);
+  background-color: white;
+}
+
+.open-menu a {
+  height: 10%;
+  text-decoration: none;
+}
+
+.open-menu a:hover {
+  background-color: #3ea8a8;
 }
 
 #root {
