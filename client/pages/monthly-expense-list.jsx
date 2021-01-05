@@ -1,5 +1,6 @@
 import React from 'react';
 import Menu from '../components/menu-component';
+import Chart from 'chart.js';
 
 class MonthlyExpenseList extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class MonthlyExpenseList extends React.Component {
       monthlyExpenseList: [],
       modalDisplay: false
     };
+    this.graph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -20,7 +22,27 @@ class MonthlyExpenseList extends React.Component {
       .catch(err => console.error(err));
   }
 
-  handleClick() {
+  handleClick(event) {
+    const userId = 1;
+    let date = event.target.id.split(' ');
+    date = date.filter(value => value !== '');
+    fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`)
+      .then(response => response.json())
+      .then(list => {
+        // eslint-disable-next-line no-unused-vars
+        const barChart = new Chart(this.graph.current.getContext('2d'), {
+          type: 'bar',
+          data: {
+            datasets: [{
+              barPercentage: 0.5,
+              barThickness: 6,
+              maxBarThickness: 8,
+              minBarLength: 2,
+              data: [10, 20, 30, 40, 50, 60, 70]
+            }]
+          }
+        });
+      });
     this.setState({ modalDisplay: true });
   }
 
@@ -40,7 +62,7 @@ class MonthlyExpenseList extends React.Component {
           <td>{date}</td>
           <td>${monthlyExpense.sum}</td>
           <td>
-            <div className="view-single-entry-button text-center" onClick={this.handleClick}>
+            <div className="view-single-entry-button text-center" id={date} onClick={this.handleClick}>
               view
             </div>
           </td>
@@ -69,7 +91,7 @@ class MonthlyExpenseList extends React.Component {
         </div>
         <div className={modalVisibility + ' modal-background'}>
           <div>
-            modal place holder
+            <canvas ref={this.graph}></canvas>
           </div>
         </div>
       </>
