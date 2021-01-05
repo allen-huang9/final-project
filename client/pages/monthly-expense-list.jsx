@@ -27,13 +27,8 @@ class MonthlyExpenseList extends React.Component {
       return (
         <tr key={date}>
           <td>{date}</td>
-          <td className="amount-td">${monthlyExpense.sum}</td>
-          <td>
-            <a className="view-single-entry-button"
-              href={''}>
-              View
-            </a>
-          </td>
+          <td>${monthlyExpense.sum}</td>
+          <td></td>
         </tr>
       );
     });
@@ -45,11 +40,11 @@ class MonthlyExpenseList extends React.Component {
           <p className="header-text">Monthly Expenses</p>
         </header>
         <div className="list-container">
-          <table className="monthly-expense-list-table">
+          <table className="list-table">
             <thead>
               <tr>
-                <th className="text-center">Date</th>
-                <th className="amount-td">Amount</th>
+                <th>Date</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
