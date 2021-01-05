@@ -5,8 +5,10 @@ class MonthlyExpenseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      monthlyExpenseList: []
+      monthlyExpenseList: [],
+      modalDisplay: false
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -18,7 +20,16 @@ class MonthlyExpenseList extends React.Component {
       .catch(err => console.error(err));
   }
 
+  handleClick() {
+    this.setState({ modalDisplay: true });
+  }
+
   render() {
+    let modalVisibility = 'd-none';
+
+    if (this.state.modalDisplay) {
+      modalVisibility = '';
+    }
 
     const monthlyExpenses = this.state.monthlyExpenseList.map(monthlyExpense => {
 
@@ -28,7 +39,11 @@ class MonthlyExpenseList extends React.Component {
         <tr key={date}>
           <td>{date}</td>
           <td>${monthlyExpense.sum}</td>
-          <td></td>
+          <td>
+            <div className="view-single-entry-button text-center" onClick={this.handleClick}>
+              view
+            </div>
+          </td>
         </tr>
       );
     });
@@ -51,6 +66,11 @@ class MonthlyExpenseList extends React.Component {
               {monthlyExpenses}
             </tbody>
           </table>
+        </div>
+        <div className={modalVisibility + ' modal-background'}>
+          <div>
+            modal place holder
+          </div>
         </div>
       </>
     );
