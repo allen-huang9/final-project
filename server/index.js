@@ -174,12 +174,27 @@ app.get('/api/monthly-expense/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/monthly-expense-graph', (req, res, next) => {
+app.get('/api/monthly-expense-graph/:userId/:month/:year', (req, res, next) => {
   const sql = `select "categoryId", "amount", TO_CHAR("date", 'Month') as "month"
                from "entry" join "category" using ("categoryId")
                where "userId" = $1 and TRIM(TO_CHAR("date", 'Month')) = $2
                and TRIM(TO_CHAR("date", 'yyyy'))::integer = $3`;
-  db.query(sql);
+
+  const userId = parseInt(req.params.userId, 10);
+  const month = req.params.month;
+  const year = parseInt(req.params.year, 10);
+
+  if (!Number.isInteger(userId) || !Number.isInteger(year)) {
+    throw new ClientError(400, 'userId and year nust be a valid number.');
+  }
+
+  const params = [userId, month, year];
+
+  db.query(sql, params)
+    .then(list => {
+      res.status(200).json(list.rows);
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
