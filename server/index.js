@@ -174,6 +174,14 @@ app.get('/api/monthly-expense/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/monthly-expense-graph', (req, res, next) => {
+  const sql = `select "categoryId", "amount", TO_CHAR("date", 'Month') as "month"
+               from "entry" join "category" using ("categoryId")
+               where "userId" = $1 and TRIM(TO_CHAR("date", 'Month')) = $2
+               and TRIM(TO_CHAR("date", 'yyyy'))::integer = $3`;
+  db.query(sql);
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
