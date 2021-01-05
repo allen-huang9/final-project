@@ -155,9 +155,9 @@ app.post('/api/add-entry', (req, res, next) => {
  */
 app.get('/api/monthly-expense/:userId', (req, res, next) => {
 
-  const sql = `select sum("amount"), TO_CHAR("date" :: DATE, 'Monthyyyy') as "date"
-               from (select "amount", "date" from "entry" where "userId" = $1) as "userEntries"
-               group by TO_CHAR("date" :: DATE, 'Monthyyyy')`;
+  const sql = `select sum("amount"), TO_CHAR("date" :: DATE, 'Monthyyyy') as "month"
+               from "entry" where "userId" = $1
+               group by "month"`;
 
   const userId = parseInt(req.params.userId, 10);
 

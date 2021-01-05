@@ -22,7 +22,7 @@ class MonthlyExpenseList extends React.Component {
 
     const monthlyExpenses = this.state.monthlyExpenseList.map(monthlyExpense => {
 
-      const date = monthlyExpense.date;
+      const date = monthlyExpense.month;
 
       return (
         <tr key={date}>
