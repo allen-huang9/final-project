@@ -39,17 +39,14 @@ header {
   bottom: 10px;
 }
 
-.entry-list-table {
-  width: 90%;
-  text-align: center;
+.list-table {
+  width: 100%;
 }
 
-.entry-list-table td {
+.list-table td,
+.list-table th {
   width: calc(100% / 3);
-}
-
-.amount-td {
-  text-align: start;
+  padding: 0 10px;
 }
 
 .view-single-entry-button {

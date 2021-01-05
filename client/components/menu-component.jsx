@@ -31,6 +31,7 @@ class Menu extends React.Component {
         <div className={displayStatus} onClick={this.handleClick}>
           <div className='open-menu'>
             <a className='pl-2 d-flex align-items-center' href='#'>Home</a>
+            <a className='pl-2 d-flex align-items-center' href='#monthly-expense'>Monthly Expense</a>
           </div>
         </div>
 

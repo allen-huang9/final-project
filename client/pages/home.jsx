@@ -31,7 +31,7 @@ class Home extends React.Component {
       return (
         <tr key={entry.entryId}>
           <td>{entry.date}</td>
-          <td className="amount-td">${entry.amount}</td>
+          <td>${entry.amount}</td>
           <td>
             <a className="view-single-entry-button"
               href={`#single-entry?entryId=${entry.entryId}`}>
@@ -49,11 +49,11 @@ class Home extends React.Component {
           <p className="header-text">APP Name</p>
         </header>
         <div className="list-container">
-          <table className="entry-list-table">
+          <table className="list-table">
             <thead>
               <tr>
                 <th>Date</th>
-                <th className="amount-td">Amount</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
