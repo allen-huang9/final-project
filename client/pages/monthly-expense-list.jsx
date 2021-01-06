@@ -8,7 +8,8 @@ class MonthlyExpenseList extends React.Component {
     this.state = {
       categoryList: [],
       monthlyExpenseList: [],
-      modalDisplay: false
+      modalDisplay: false,
+      totalSpent: 0
     };
     this.graph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
@@ -35,25 +36,55 @@ class MonthlyExpenseList extends React.Component {
     date = date.filter(value => value !== '');
 
     const categoryName = [];
-
+    let spentOnCategory = [];
     for (let i = 0; i < list.length; i++) {
       categoryName.push(list[i].name);
+      spentOnCategory.push({
+        id: list[i].categoryId,
+        value: 0
+      });
     }
+
+    let totalExpense = 0;
 
     fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`)
       .then(response => response.json())
       .then(list => {
+
+        for (let i = 0; i < list.length; i++) {
+          for (let k = 0; k < spentOnCategory.length; k++) {
+            if (list[i].categoryId !== spentOnCategory[k].id) {
+              continue;
+            } else {
+              spentOnCategory[k].value += parseFloat(list[i].amount);
+              break;
+            }
+          }
+        }
+
+        spentOnCategory = spentOnCategory.map(category => category.value);
+
+        for (let j = 0; j < spentOnCategory.length; j++) {
+          totalExpense += spentOnCategory[j];
+        }
+
         // eslint-disable-next-line no-unused-vars
         const barChart = new Chart(this.graph.current.getContext('2d'), {
           type: 'bar',
           data: {
             labels: categoryName,
             datasets: [{
-              barPercentage: 0.5,
-              barThickness: 6,
-              maxBarThickness: 8,
+              barPercentage: 0.9,
               minBarLength: 2,
-              data: [20, 20, 30, 40, 50, 60, 70]
+              backgroundColor: [
+                '#ff2e2e',
+                '#9933ff',
+                '#3381ff',
+                '#33ff92',
+                '#adff33',
+                '#de38ff'
+              ],
+              data: spentOnCategory
             }]
           },
           options: {
@@ -67,14 +98,19 @@ class MonthlyExpenseList extends React.Component {
             scales: {
               yAxes: [{
                 ticks: {
+                  lineHeight: 1.5,
                   beginAtZero: true
                 }
               }]
             },
-            responsive: true
+            responsive: true,
+            maintainAspectRatio: true
           }
         });
+
+        this.setState({ totalSpent: totalExpense });
       });
+
     this.setState({ modalDisplay: true });
   }
 
@@ -123,7 +159,11 @@ class MonthlyExpenseList extends React.Component {
         </div>
         <div className={modalVisibility + ' modal-background'}>
           <div>
-            <canvas ref={this.graph}></canvas>
+            <div className="canvas-background">
+              <canvas ref={this.graph}></canvas>
+              <div> {'Total spent:' + this.state.totalSpent} </div>
+            </div>
+
           </div>
         </div>
       </>

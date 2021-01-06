@@ -16,10 +16,6 @@ header {
   font-family: 'Poppins', sans-serif;
 }
 
-canvas {
-  background-color: white;
-}
-
 .header-text {
   width: calc(100% - 90px);
   text-align: center;
@@ -120,6 +116,10 @@ canvas {
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.canvas-background {
+  background-color: white;
 }
 
 #root {
