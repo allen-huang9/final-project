@@ -13,6 +13,7 @@ class MonthlyExpenseList extends React.Component {
     };
     this.graph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
+    this.handleClickCloseModal = this.handleClickCloseModal.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +27,10 @@ class MonthlyExpenseList extends React.Component {
         this.setState({ monthlyExpenseList });
       })
       .catch(err => console.error(err));
+  }
+
+  handleClickCloseModal() {
+    this.setState({ modalDisplay: false });
   }
 
   handleClick(event) {
@@ -158,10 +163,13 @@ class MonthlyExpenseList extends React.Component {
           </table>
         </div>
         <div className={modalVisibility + ' modal-background'}>
-          <div>
+          <div className="h-100 d-flex align-items-center justify-content-center">
             <div className="canvas-background">
+              <div className="text-right px-2" onClick={this.handleClickCloseModal}>
+                <i className="fas fa-times"></i>
+              </div>
               <canvas ref={this.graph}></canvas>
-              <div> {'Total spent:' + this.state.totalSpent} </div>
+              <div className="p-2"> {'Total spent: ' + this.state.totalSpent} </div>
             </div>
 
           </div>
