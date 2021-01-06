@@ -6,6 +6,7 @@ class MonthlyExpenseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      categoryList: [],
       monthlyExpenseList: [],
       modalDisplay: false
     };
@@ -14,6 +15,10 @@ class MonthlyExpenseList extends React.Component {
   }
 
   componentDidMount() {
+    fetch('/api/category-table')
+      .then(response => response.json())
+      .then(categoryList => this.setState({ categoryList }));
+
     fetch('/api/monthly-expense/' + 1)
       .then(response => response.json())
       .then(monthlyExpenseList => {
@@ -23,9 +28,18 @@ class MonthlyExpenseList extends React.Component {
   }
 
   handleClick(event) {
+    const list = this.state.categoryList;
+
     const userId = 1;
     let date = event.target.id.split(' ');
     date = date.filter(value => value !== '');
+
+    const categoryName = [];
+
+    for (let i = 0; i < list.length; i++) {
+      categoryName.push(list[i].name);
+    }
+
     fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`)
       .then(response => response.json())
       .then(list => {
@@ -33,13 +47,31 @@ class MonthlyExpenseList extends React.Component {
         const barChart = new Chart(this.graph.current.getContext('2d'), {
           type: 'bar',
           data: {
+            labels: categoryName,
             datasets: [{
               barPercentage: 0.5,
               barThickness: 6,
               maxBarThickness: 8,
               minBarLength: 2,
-              data: [10, 20, 30, 40, 50, 60, 70]
+              data: [20, 20, 30, 40, 50, 60, 70]
             }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `${date[0]} ${date[1]}`
+            },
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            },
+            responsive: true
           }
         });
       });
