@@ -6,7 +6,6 @@ class MonthlyExpenseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryList: [],
       monthlyExpenseList: [],
       modalDisplay: false,
       totalSpent: 0
@@ -17,9 +16,6 @@ class MonthlyExpenseList extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/category-table')
-      .then(response => response.json())
-      .then(categoryList => this.setState({ categoryList }));
 
     fetch('/api/monthly-expense/' + 1)
       .then(response => response.json())
@@ -34,21 +30,12 @@ class MonthlyExpenseList extends React.Component {
   }
 
   handleClick(event) {
-    const list = this.state.categoryList;
-
     const userId = 1;
     let date = event.target.id.split(' ');
     date = date.filter(value => value !== '');
 
     const categoryName = [];
-    let spentOnCategory = [];
-    for (let i = 0; i < list.length; i++) {
-      categoryName.push(list[i].name);
-      spentOnCategory.push({
-        id: list[i].categoryId,
-        value: 0
-      });
-    }
+    const spentOnCategory = [];
 
     let totalExpense = 0;
 
@@ -57,20 +44,15 @@ class MonthlyExpenseList extends React.Component {
       .then(list => {
 
         for (let i = 0; i < list.length; i++) {
-          for (let k = 0; k < spentOnCategory.length; k++) {
-            if (list[i].categoryId !== spentOnCategory[k].id) {
-              continue;
-            } else {
-              spentOnCategory[k].value += parseFloat(list[i].amount);
-              break;
-            }
+          categoryName.push(list[i].name);
+          if (list[i].sum) {
+            spentOnCategory.push(list[i].sum);
+            totalExpense += parseFloat(list[i].sum);
+          } else {
+            spentOnCategory.push(0);
+            totalExpense += 0;
           }
-        }
 
-        spentOnCategory = spentOnCategory.map(category => category.value);
-
-        for (let j = 0; j < spentOnCategory.length; j++) {
-          totalExpense += spentOnCategory[j];
         }
 
         // eslint-disable-next-line no-unused-vars
