@@ -108,7 +108,7 @@ app.put('/api/update-entry/:entryId', (req, res, next) => {
  * route returns the entire category table
 */
 app.get('/api/category-table', (req, res, next) => {
-  const sql = 'select * from "category"';
+  const sql = 'select * from "category" order by "name"';
 
   db.query(sql)
     .then(categoryList => {
@@ -170,6 +170,38 @@ app.get('/api/monthly-expense/:userId', (req, res, next) => {
   db.query(sql, params)
     .then(monthlyExpenseList => {
       res.status(200).json(monthlyExpenseList.rows);
+    })
+    .catch(err => next(err));
+});
+
+/**
+ * route returns a list of total expense
+ */
+app.get('/api/monthly-expense-graph/:userId/:month/:year', (req, res, next) => {
+  const sql = `select "name", "sum"
+               from "category" as "c"
+               left join (
+                  select "categoryId", sum("amount") as "sum", TO_CHAR("date", 'Month') as "month"
+                  from "entry"
+                  where "userId" = $1 and TRIM(TO_CHAR("date", 'Month')) = $2 and TRIM(TO_CHAR("date", 'yyyy')):: integer = $3
+                  group by "categoryId", "month"
+                ) as "e"
+                using("categoryId")
+                order by "name"`;
+
+  const userId = parseInt(req.params.userId, 10);
+  const month = req.params.month;
+  const year = parseInt(req.params.year, 10);
+
+  if (!Number.isInteger(userId) || !Number.isInteger(year)) {
+    throw new ClientError(400, 'userId and year nust be a valid number.');
+  }
+
+  const params = [userId, month, year];
+
+  db.query(sql, params)
+    .then(list => {
+      res.status(200).json(list.rows);
     })
     .catch(err => next(err));
 });
