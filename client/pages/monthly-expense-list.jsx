@@ -139,7 +139,7 @@ class MonthlyExpenseList extends React.Component {
         <tr key={date}>
           <td>{date}</td>
           <td>${monthlyExpense.sum}</td>
-          <td>
+          <td className="p-1">
             <div className="view-single-entry-button text-center" id={date} onClick={this.handleClick}>
               view
             </div>
