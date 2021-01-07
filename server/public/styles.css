@@ -119,7 +119,20 @@ header {
 }
 
 .canvas-background {
+  height: 60vh;
+  width: 90vw;
+}
+
+.modal-pop-up-bg {
   background-color: white;
+}
+
+.download-button {
+  background-color: #3ea8a8;
+  border-radius: 5px;
+  margin: auto;
+  padding: 0 10px;
+  color: #020d0d;
 }
 
 #root {

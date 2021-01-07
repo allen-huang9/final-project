@@ -1,6 +1,7 @@
 import React from 'react';
 import Menu from '../components/menu-component';
 import Chart from 'chart.js';
+import JSPDF from 'jspdf';
 
 class MonthlyExpenseList extends React.Component {
   constructor(props) {
@@ -8,11 +9,14 @@ class MonthlyExpenseList extends React.Component {
     this.state = {
       monthlyExpenseList: [],
       modalDisplay: false,
-      totalSpent: 0
+      totalSpent: 0,
+      categoryInfo: [],
+      monthYear: []
     };
     this.graph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
     this.handleClickCloseModal = this.handleClickCloseModal.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +29,23 @@ class MonthlyExpenseList extends React.Component {
       .catch(err => console.error(err));
   }
 
+  handleDownload() {
+    const canvasImage = this.graph.current.toDataURL();
+    const doc = new JSPDF('landscape', 'px');
+    const imageWidth = 477.4;
+    const imageHeight = 403.2;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const graphPositionX = (pageWidth - imageWidth) / 2;
+    const graphPositionY = (pageHeight - imageHeight) / 2 - 20;
+    const textPositionX = (pageWidth / 2) - 70;
+    const textPositionY = pageHeight - 20;
+    doc.addImage(canvasImage, 'JPEG', graphPositionX, graphPositionY, imageWidth, imageHeight);
+    doc.setFontSize(25);
+    doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, textPositionX, textPositionY);
+    doc.save(`${this.state.monthYear[0]}-${this.state.monthYear[1]}.pdf`);
+  }
+
   handleClickCloseModal() {
     this.setState({ modalDisplay: false });
   }
@@ -34,7 +55,7 @@ class MonthlyExpenseList extends React.Component {
     let date = event.target.id.split(' ');
     date = date.filter(value => value !== '');
 
-    const categoryName = [];
+    const categoryNames = [];
     const spentOnCategory = [];
 
     let totalExpense = 0;
@@ -44,7 +65,7 @@ class MonthlyExpenseList extends React.Component {
       .then(list => {
 
         for (let i = 0; i < list.length; i++) {
-          categoryName.push(list[i].name);
+          categoryNames.push(list[i].name);
           if (list[i].sum) {
             spentOnCategory.push(list[i].sum);
             totalExpense += parseFloat(list[i].sum);
@@ -52,17 +73,16 @@ class MonthlyExpenseList extends React.Component {
             spentOnCategory.push(0);
             totalExpense += 0;
           }
-
         }
 
         // eslint-disable-next-line no-unused-vars
         const barChart = new Chart(this.graph.current.getContext('2d'), {
           type: 'bar',
           data: {
-            labels: categoryName,
+            labels: categoryNames,
             datasets: [{
               barPercentage: 0.9,
-              minBarLength: 2,
+              minBarLength: 0,
               backgroundColor: [
                 '#ff2e2e',
                 '#9933ff',
@@ -83,22 +103,33 @@ class MonthlyExpenseList extends React.Component {
               display: false
             },
             scales: {
+              xAxes: [{
+                ticks: {
+                  fontSize: 12
+                }
+              }],
               yAxes: [{
                 ticks: {
-                  lineHeight: 1.5,
+                  fontSize: 9,
+                  lineHeight: 3,
                   beginAtZero: true
                 }
               }]
             },
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: false
           }
         });
 
-        this.setState({ totalSpent: totalExpense });
+        this.setState({
+          totalSpent: totalExpense,
+          categoryInfo: list
+        });
       });
-
-    this.setState({ modalDisplay: true });
+    this.setState({
+      modalDisplay: true,
+      monthYear: date
+    });
   }
 
   render() {
@@ -116,7 +147,7 @@ class MonthlyExpenseList extends React.Component {
         <tr key={date}>
           <td>{date}</td>
           <td>${monthlyExpense.sum}</td>
-          <td>
+          <td className="p-1">
             <div className="view-single-entry-button text-center" id={date} onClick={this.handleClick}>
               view
             </div>
@@ -146,14 +177,18 @@ class MonthlyExpenseList extends React.Component {
         </div>
         <div className={modalVisibility + ' modal-background'}>
           <div className="h-100 d-flex align-items-center justify-content-center">
-            <div className="canvas-background">
-              <div className="text-right px-2" onClick={this.handleClickCloseModal}>
-                <i className="fas fa-times"></i>
+            <div className="modal-pop-up-bg">
+              <div className="canvas-background">
+                <div className="text-right px-2" onClick={this.handleClickCloseModal}>
+                  <i className="fas fa-times"></i>
+                </div>
+                <canvas ref={this.graph}></canvas>
               </div>
-              <canvas ref={this.graph}></canvas>
-              <div className="p-2"> {'Total spent: ' + this.state.totalSpent} </div>
+              <div className="d-flex pt-2 pr-2">
+                <div className="p-2 w-75"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>
+                <div className="download-button" onClick={this.handleDownload}>Download</div>
+              </div>
             </div>
-
           </div>
         </div>
       </>
