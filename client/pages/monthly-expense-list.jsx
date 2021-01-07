@@ -9,7 +9,9 @@ class MonthlyExpenseList extends React.Component {
     this.state = {
       monthlyExpenseList: [],
       modalDisplay: false,
-      totalSpent: 0
+      totalSpent: 0,
+      categoryInfo: [],
+      monthYear: []
     };
     this.graph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
@@ -30,10 +32,10 @@ class MonthlyExpenseList extends React.Component {
   handleDownload() {
     const canvasImage = this.graph.current.toDataURL();
     const doc = new JSPDF('landscape');
-    doc.addImage(canvasImage, 'JPEG', 10, 10, 280, 150);
-    doc.setFontSize(40);
-    doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, 10, 180);
-    doc.save('test.pdf');
+    doc.addImage(canvasImage, 'JPEG', 10, 10, 280, 180);
+    doc.setFontSize(25);
+    doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, 100, 200);
+    doc.save(`${this.state.monthYear[0]}-${this.state.monthYear[1]}.pdf`);
   }
 
   handleClickCloseModal() {
@@ -45,7 +47,7 @@ class MonthlyExpenseList extends React.Component {
     let date = event.target.id.split(' ');
     date = date.filter(value => value !== '');
 
-    const categoryName = [];
+    const categoryNames = [];
     const spentOnCategory = [];
 
     let totalExpense = 0;
@@ -55,7 +57,7 @@ class MonthlyExpenseList extends React.Component {
       .then(list => {
 
         for (let i = 0; i < list.length; i++) {
-          categoryName.push(list[i].name);
+          categoryNames.push(list[i].name);
           if (list[i].sum) {
             spentOnCategory.push(list[i].sum);
             totalExpense += parseFloat(list[i].sum);
@@ -63,14 +65,13 @@ class MonthlyExpenseList extends React.Component {
             spentOnCategory.push(0);
             totalExpense += 0;
           }
-
         }
 
         // eslint-disable-next-line no-unused-vars
         const barChart = new Chart(this.graph.current.getContext('2d'), {
           type: 'bar',
           data: {
-            labels: categoryName,
+            labels: categoryNames,
             datasets: [{
               barPercentage: 0.9,
               minBarLength: 0,
@@ -108,14 +109,19 @@ class MonthlyExpenseList extends React.Component {
               }]
             },
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: false
           }
         });
 
-        this.setState({ totalSpent: totalExpense });
+        this.setState({
+          totalSpent: totalExpense,
+          categoryInfo: list
+        });
       });
-    this.setState({ date });
-    this.setState({ modalDisplay: true });
+    this.setState({
+      modalDisplay: true,
+      monthYear: date
+    });
   }
 
   render() {
@@ -163,13 +169,17 @@ class MonthlyExpenseList extends React.Component {
         </div>
         <div className={modalVisibility + ' modal-background'}>
           <div className="h-100 d-flex align-items-center justify-content-center">
-            <div className="canvas-background">
-              <div className="text-right px-2" onClick={this.handleClickCloseModal}>
-                <i className="fas fa-times"></i>
+            <div className="modal-pop-up-bg">
+              <div className="canvas-background">
+                <div className="close-graph-button text-right px-2" onClick={this.handleClickCloseModal}>
+                  <i className="fas fa-times"></i>
+                </div>
+                <canvas ref={this.graph}></canvas>
               </div>
-              <canvas ref={this.graph}></canvas>
-              <div className="p-2"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>
-              <div className="view-single-entry-button" onClick={this.handleDownload}>Download</div>
+              <div className="d-flex pt-2 pr-2">
+                <div className="p-2 w-75"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>
+                <div className="download-button" onClick={this.handleDownload}>Download</div>
+              </div>
             </div>
           </div>
         </div>
