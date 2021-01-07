@@ -31,10 +31,18 @@ class MonthlyExpenseList extends React.Component {
 
   handleDownload() {
     const canvasImage = this.graph.current.toDataURL();
-    const doc = new JSPDF('landscape');
-    doc.addImage(canvasImage, 'JPEG', 10, 10, 280, 180);
+    const doc = new JSPDF('landscape', 'px');
+    const imageWidth = 477.4;
+    const imageHeight = 403.2;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const graphPositionX = (pageWidth - imageWidth) / 2;
+    const graphPositionY = (pageHeight - imageHeight) / 2 - 20;
+    const textPositionX = (pageWidth / 2) - 70;
+    const textPositionY = pageHeight - 20;
+    doc.addImage(canvasImage, 'JPEG', graphPositionX, graphPositionY, imageWidth, imageHeight); // 400, 360
     doc.setFontSize(25);
-    doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, 100, 200);
+    doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, textPositionX, textPositionY);
     doc.save(`${this.state.monthYear[0]}-${this.state.monthYear[1]}.pdf`);
   }
 
