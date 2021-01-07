@@ -171,7 +171,7 @@ class MonthlyExpenseList extends React.Component {
           <div className="h-100 d-flex align-items-center justify-content-center">
             <div className="modal-pop-up-bg">
               <div className="canvas-background">
-                <div className="close-graph-button text-right px-2" onClick={this.handleClickCloseModal}>
+                <div className="text-right px-2" onClick={this.handleClickCloseModal}>
                   <i className="fas fa-times"></i>
                 </div>
                 <canvas ref={this.graph}></canvas>
