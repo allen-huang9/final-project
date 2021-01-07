@@ -1,6 +1,7 @@
 import React from 'react';
 import Menu from '../components/menu-component';
 import Chart from 'chart.js';
+import JSPDF from 'jspdf';
 
 class MonthlyExpenseList extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class MonthlyExpenseList extends React.Component {
     this.graph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
     this.handleClickCloseModal = this.handleClickCloseModal.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +25,13 @@ class MonthlyExpenseList extends React.Component {
         this.setState({ monthlyExpenseList });
       })
       .catch(err => console.error(err));
+  }
+
+  handleDownload() {
+    const canvasImage = this.graph.current.toDataURL();
+    const doc = new JSPDF('landscape');
+    doc.addImage(canvasImage, 'JPEG', 10, 10, 280, 150);
+    doc.save('test.pdf');
   }
 
   handleClickCloseModal() {
@@ -62,7 +71,7 @@ class MonthlyExpenseList extends React.Component {
             labels: categoryName,
             datasets: [{
               barPercentage: 0.9,
-              minBarLength: 2,
+              minBarLength: 0,
               backgroundColor: [
                 '#ff2e2e',
                 '#9933ff',
@@ -83,9 +92,15 @@ class MonthlyExpenseList extends React.Component {
               display: false
             },
             scales: {
+              xAxes: [{
+                ticks: {
+                  fontSize: 12
+                }
+              }],
               yAxes: [{
                 ticks: {
-                  lineHeight: 1.5,
+                  fontSize: 9,
+                  lineHeight: 3,
                   beginAtZero: true
                 }
               }]
@@ -97,7 +112,7 @@ class MonthlyExpenseList extends React.Component {
 
         this.setState({ totalSpent: totalExpense });
       });
-
+    this.setState({ date });
     this.setState({ modalDisplay: true });
   }
 
@@ -152,8 +167,8 @@ class MonthlyExpenseList extends React.Component {
               </div>
               <canvas ref={this.graph}></canvas>
               <div className="p-2"> {'Total spent: ' + this.state.totalSpent} </div>
+              <div className="view-single-entry-button" onClick={this.handleDownload}>Download</div>
             </div>
-
           </div>
         </div>
       </>
