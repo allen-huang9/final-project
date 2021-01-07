@@ -40,7 +40,7 @@ class MonthlyExpenseList extends React.Component {
     const graphPositionY = (pageHeight - imageHeight) / 2 - 20;
     const textPositionX = (pageWidth / 2) - 70;
     const textPositionY = pageHeight - 20;
-    doc.addImage(canvasImage, 'JPEG', graphPositionX, graphPositionY, imageWidth, imageHeight); // 400, 360
+    doc.addImage(canvasImage, 'JPEG', graphPositionX, graphPositionY, imageWidth, imageHeight);
     doc.setFontSize(25);
     doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, textPositionX, textPositionY);
     doc.save(`${this.state.monthYear[0]}-${this.state.monthYear[1]}.pdf`);
