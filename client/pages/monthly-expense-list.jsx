@@ -31,6 +31,8 @@ class MonthlyExpenseList extends React.Component {
     const canvasImage = this.graph.current.toDataURL();
     const doc = new JSPDF('landscape');
     doc.addImage(canvasImage, 'JPEG', 10, 10, 280, 150);
+    doc.setFontSize(40);
+    doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, 10, 180);
     doc.save('test.pdf');
   }
 
@@ -166,7 +168,7 @@ class MonthlyExpenseList extends React.Component {
                 <i className="fas fa-times"></i>
               </div>
               <canvas ref={this.graph}></canvas>
-              <div className="p-2"> {'Total spent: ' + this.state.totalSpent} </div>
+              <div className="p-2"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>
               <div className="view-single-entry-button" onClick={this.handleDownload}>Download</div>
             </div>
           </div>
