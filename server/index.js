@@ -175,7 +175,7 @@ app.get('/api/monthly-expense/:userId', (req, res, next) => {
 });
 
 /**
- * route returns a list of total expense
+ * route returns a list of total sum spent for each category
  */
 app.get('/api/monthly-expense-graph/:userId/:month/:year', (req, res, next) => {
   const sql = `select "name", "sum"
