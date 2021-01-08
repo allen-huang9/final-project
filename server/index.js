@@ -46,11 +46,11 @@ app.post('/api/sign-in', (req, res, next) => {
           }
           const payload = {
             userId: user.userId,
-            username: user.username
+            username: userName
           };
 
           const signedToken = jwt.sign(payload, process.env.TOKEN_SECRET);
-          res.status(200).json(signedToken);
+          res.status(200).json({ signedToken, user: payload });
         })
         .catch(err => next(err));
     })
