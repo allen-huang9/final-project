@@ -135,6 +135,10 @@ header {
   color: #020d0d;
 }
 
+.sign-in-form-container {
+  height: calc(100vh - 50px);
+}
+
 #root {
   height: 100vh;
 }
