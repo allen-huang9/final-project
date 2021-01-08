@@ -21,8 +21,8 @@ app.post('/api/sign-in', (req, res, next) => {
   const sql = `select "userId", "hashpassword" from "users"
                where "username" = $1`;
 
-  const userName = req.body.userName;
-  const hashedPassword = req.body.hashedPassword;
+  const userName = req.body.username;
+  const hashedPassword = req.body.password;
 
   if (!userName || !hashedPassword) {
     throw new ClientError(401, 'Invalid login. missing');

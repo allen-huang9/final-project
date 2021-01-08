@@ -1,4 +1,5 @@
 import React from 'react';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class SignIn extends React.Component {
 
@@ -19,7 +20,8 @@ class SignIn extends React.Component {
     this.setState({ [inputName]: updatedState[inputName] });
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
     const init = {
       method: 'POST',
       headers: {
@@ -27,7 +29,13 @@ class SignIn extends React.Component {
       },
       body: JSON.stringify(this.state)
     };
-    fetch('/apis/sign-in', init);
+    fetch('/api/sign-in', init)
+      .then(res => res.json())
+      .then(response => {
+        if (response.user && response.signedToken) {
+          this.context.handleSignIn(response);
+        }
+      });
   }
 
   render() {
@@ -41,6 +49,7 @@ class SignIn extends React.Component {
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input className="form-control"
+                required
                 type="text"
                 name="username"
                 id="username"
@@ -51,6 +60,7 @@ class SignIn extends React.Component {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input className="form-control"
+                required
                 type="password"
                 name="password"
                 id="password"
@@ -67,4 +77,5 @@ class SignIn extends React.Component {
   }
 }
 
+SignIn.contextType = UserInfoContext;
 export default SignIn;
