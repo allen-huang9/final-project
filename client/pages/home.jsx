@@ -1,5 +1,6 @@
 import React from 'react';
 import Menu from '../components/menu-component';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class Home extends React.Component {
   constructor(props) {
@@ -11,9 +12,11 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/entries/' + 1)
+    const userId = this.context.user.userId;
+    fetch(`/api/entries/${userId}`)
       .then(response => response.json())
       .then(jsonData => {
+
         this.setState({
           entryList: jsonData
         });
@@ -70,4 +73,7 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.contextType = UserInfoContext;
+
 export default Home;

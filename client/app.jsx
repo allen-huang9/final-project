@@ -1,5 +1,5 @@
 import React from 'react';
-// import Home from './pages/home';
+import Home from './pages/home';
 import SingleEntry from './pages/view-single-entry';
 import AddEntry from './pages/add-entry';
 import EditForm from './pages/edit-entry-form';
@@ -34,12 +34,15 @@ export default class App extends React.Component {
         route: parseRoute(window.location.hash)
       });
     });
+
+    // const token = window.localStorage.getItem('money-token');
   }
 
   handleSignIn(result) {
     const { user, signedToken } = result;
     window.localStorage.setItem('money-token', signedToken);
     this.setState({ user });
+    window.location.hash = 'home';
   }
 
   render() {
@@ -50,6 +53,8 @@ export default class App extends React.Component {
     if (path === '') {
       // return <Home />;
       page = <SignIn />;
+    } else if (path === 'home') {
+      page = <Home />;
     } else if (path === 'single-entry') {
       const entryId = this.state.route.params.get('entryId');
       page = <SingleEntry entryId={entryId} />;

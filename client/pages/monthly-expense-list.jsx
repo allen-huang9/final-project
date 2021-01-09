@@ -2,6 +2,7 @@ import React from 'react';
 import Menu from '../components/menu-component';
 import Chart from 'chart.js';
 import JSPDF from 'jspdf';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class MonthlyExpenseList extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class MonthlyExpenseList extends React.Component {
 
   componentDidMount() {
 
-    fetch('/api/monthly-expense/' + 1)
+    fetch('/api/monthly-expense/' + this.context.user.userId)
       .then(response => response.json())
       .then(monthlyExpenseList => {
         this.setState({ monthlyExpenseList });
@@ -51,7 +52,7 @@ class MonthlyExpenseList extends React.Component {
   }
 
   handleClick(event) {
-    const userId = 1;
+    const userId = this.context.user.userId;
     let date = event.target.id.split(' ');
     date = date.filter(value => value !== '');
 
@@ -195,5 +196,7 @@ class MonthlyExpenseList extends React.Component {
     );
   }
 }
+
+MonthlyExpenseList.contextType = UserInfoContext;
 
 export default MonthlyExpenseList;
