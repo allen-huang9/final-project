@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
+const authorizationMiddleware = require('./authorization-middleware');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL
@@ -56,6 +57,8 @@ app.post('/api/sign-in', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+app.use(authorizationMiddleware);
 
 /**
  * route returns all entries that the user has

@@ -18,11 +18,20 @@ function parseRoute(hashRoute) {
   return { path, params };
 }
 
+function decodeToken(token) {
+  const [, encodedPayload] = token.split('.');
+  const jsonPayload = atob(encodedPayload);
+  const payload = JSON.parse(jsonPayload);
+  return payload;
+}
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
+      signedToken: null,
+      isAuthorizing: true,
       route: parseRoute(window.location.hash)
     };
     this.handleSignIn = this.handleSignIn.bind(this);
@@ -35,13 +44,19 @@ export default class App extends React.Component {
       });
     });
 
-    // const token = window.localStorage.getItem('money-token');
+    const token = window.localStorage.getItem('money-token');
+    let user = null;
+    if (token) {
+      user = decodeToken(token);
+      this.setState({ user, signedToken: token, isAuthorizing: false });
+    }
+
   }
 
   handleSignIn(result) {
     const { user, signedToken } = result;
     window.localStorage.setItem('money-token', signedToken);
-    this.setState({ user });
+    this.setState({ user, signedToken });
     window.location.hash = 'home';
   }
 
@@ -51,7 +66,6 @@ export default class App extends React.Component {
     let page = null;
 
     if (path === '') {
-      // return <Home />;
       page = <SignIn />;
     } else if (path === 'home') {
       page = <Home />;
@@ -69,10 +83,16 @@ export default class App extends React.Component {
       page = <div>Not Found</div>;
     }
 
+    if (this.state.isAuthorizing) {
+      return null;
+    }
+
     const context = {
       user: this.state.user,
+      token: this.state.signedToken,
       handleSignIn: this.handleSignIn
     };
+
     return (
       <UserInfoContext.Provider value={context}>
         {page}

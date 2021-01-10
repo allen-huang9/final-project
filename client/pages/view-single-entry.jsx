@@ -1,5 +1,6 @@
 import React from 'react';
 import Menu from '../components/menu-component';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class SingleEntry extends React.Component {
   constructor(props) {
@@ -10,7 +11,14 @@ class SingleEntry extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`/api/entry/${this.props.entryId}`)
+
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch(`/api/entry/${this.props.entryId}`, init)
       .then(response => response.json())
       .then(entry => this.setState({ entry }));
   }
@@ -60,5 +68,7 @@ class SingleEntry extends React.Component {
     );
   }
 }
+
+SingleEntry.contextType = UserInfoContext;
 
 export default SingleEntry;

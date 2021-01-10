@@ -25,7 +25,13 @@ class AddEntry extends React.Component {
     const userEntry = this.state.entry;
     userEntry.userId = this.context.user.userId;
 
-    fetch('/api/category-table')
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch('/api/category-table', init)
       .then(response => response.json())
       .then(categoryList => this.setState({ categoryList, entry: userEntry }));
   }
@@ -43,7 +49,8 @@ class AddEntry extends React.Component {
     const req = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Access-Token': this.context.token
       },
       body: JSON.stringify(this.state.entry)
     };

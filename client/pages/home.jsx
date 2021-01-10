@@ -13,7 +13,14 @@ class Home extends React.Component {
 
   componentDidMount() {
     const userId = this.context.user.userId;
-    fetch(`/api/entries/${userId}`)
+
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch(`/api/entries/${userId}`, init)
       .then(response => response.json())
       .then(jsonData => {
 

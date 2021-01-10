@@ -22,7 +22,13 @@ class MonthlyExpenseList extends React.Component {
 
   componentDidMount() {
 
-    fetch('/api/monthly-expense/' + this.context.user.userId)
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch('/api/monthly-expense/' + this.context.user.userId, init)
       .then(response => response.json())
       .then(monthlyExpenseList => {
         this.setState({ monthlyExpenseList });
@@ -61,7 +67,13 @@ class MonthlyExpenseList extends React.Component {
 
     let totalExpense = 0;
 
-    fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`)
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`, init)
       .then(response => response.json())
       .then(list => {
 
