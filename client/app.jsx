@@ -35,6 +35,7 @@ export default class App extends React.Component {
       route: parseRoute(window.location.hash)
     };
     this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   componentDidMount() {
@@ -57,13 +58,25 @@ export default class App extends React.Component {
     const { user, signedToken } = result;
     window.localStorage.setItem('money-token', signedToken);
     this.setState({ user, signedToken });
-    window.location.hash = 'home';
+  }
+
+  handleSignOut() {
+    window.localStorage.removeItem('money-token');
+    this.setState({ user: null, signedToken: null });
+    window.location.hash = '';
   }
 
   render() {
     const path = this.state.route.path;
 
     let page = null;
+
+    const context = {
+      user: this.state.user,
+      token: this.state.signedToken,
+      handleSignIn: this.handleSignIn,
+      handleSignOut: this.handleSignOut
+    };
 
     if (path === '') {
       page = <SignIn />;
@@ -84,14 +97,12 @@ export default class App extends React.Component {
     }
 
     if (this.state.isAuthorizing) {
-      return null;
+      return (
+        <UserInfoContext.Provider value={context}>
+          <SignIn />;
+        </UserInfoContext.Provider>
+      );
     }
-
-    const context = {
-      user: this.state.user,
-      token: this.state.signedToken,
-      handleSignIn: this.handleSignIn
-    };
 
     return (
       <UserInfoContext.Provider value={context}>

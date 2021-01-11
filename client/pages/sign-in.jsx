@@ -34,6 +34,7 @@ class SignIn extends React.Component {
       .then(response => {
         if (response.user && response.signedToken) {
           this.context.handleSignIn(response);
+          window.location.hash = 'home';
         }
       });
   }

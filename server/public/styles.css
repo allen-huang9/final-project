@@ -109,6 +109,10 @@ header {
   background-color: #3ea8a8;
 }
 
+.open-menu div {
+  height: 10%;
+}
+
 .modal-background {
   position: fixed;
   top: 0;
