@@ -101,6 +101,7 @@ header {
 }
 
 .open-menu a {
+  color: black;
   height: 10%;
   text-decoration: none;
 }
@@ -110,6 +111,7 @@ header {
 }
 
 .open-menu div {
+  color: black;
   height: 10%;
 }
 

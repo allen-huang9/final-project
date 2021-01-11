@@ -33,7 +33,7 @@ class Menu extends React.Component {
           <div className='open-menu'>
             <a className='pl-2 d-flex align-items-center' href='#home'>Home</a>
             <a className='pl-2 d-flex align-items-center' href='#monthly-expense'>Monthly Expense</a>
-            <div onClick={this.context.handleSignOut}>Sign Out</div>
+            <div className='pl-2 d-flex align-items-center' onClick={this.context.handleSignOut}>Sign Out</div>
           </div>
         </div>
 

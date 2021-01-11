@@ -25,7 +25,7 @@ class SingleEntry extends React.Component {
 
   render() {
     if (!this.state.entry) {
-      return null;
+      return <div>LOADING...</div>;
     }
 
     const { amount, description, date, category } = this.state.entry;
@@ -34,7 +34,7 @@ class SingleEntry extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">Entry</p>
+          <p className="header-text">{`Entry ${this.props.entryId}`}</p>
         </header>
         <div className="single-entry-container">
           <table className="w-100 p-1">

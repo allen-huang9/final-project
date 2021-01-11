@@ -6,7 +6,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      entryList: []
+      entryList: null
     };
     this.handleClickAdd = this.handleClickAdd.bind(this);
   }
@@ -37,6 +37,11 @@ class Home extends React.Component {
 
   render() {
 
+    const entriesList = this.state.entryList;
+    if (!entriesList) {
+      return <div>LOADING...</div>;
+    }
+
     const entryListItems = this.state.entryList.map(entry => {
       return (
         <tr key={entry.entryId}>
@@ -56,7 +61,7 @@ class Home extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">APP Name</p>
+          <p className="header-text">Money Bluff</p>
         </header>
         <div className="list-container">
           <table className="list-table">

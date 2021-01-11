@@ -8,7 +8,7 @@ class MonthlyExpenseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      monthlyExpenseList: [],
+      monthlyExpenseList: null,
       modalDisplay: false,
       totalSpent: 0,
       categoryInfo: [],
@@ -146,6 +146,11 @@ class MonthlyExpenseList extends React.Component {
   }
 
   render() {
+
+    if (!this.state.monthlyExpenseList) {
+      return <div>LOADING...</div>;
+    }
+
     let modalVisibility = 'd-none';
 
     if (this.state.modalDisplay) {
