@@ -1,19 +1,29 @@
 import React from 'react';
 import Menu from '../components/menu-component';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      entryList: []
+      entryList: null
     };
     this.handleClickAdd = this.handleClickAdd.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/entries/' + 1)
+    const userId = this.context.user.userId;
+
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch(`/api/entries/${userId}`, init)
       .then(response => response.json())
       .then(jsonData => {
+
         this.setState({
           entryList: jsonData
         });
@@ -26,6 +36,11 @@ class Home extends React.Component {
   }
 
   render() {
+
+    const entriesList = this.state.entryList;
+    if (!entriesList) {
+      return <div>LOADING...</div>;
+    }
 
     const entryListItems = this.state.entryList.map(entry => {
       return (
@@ -46,7 +61,7 @@ class Home extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">APP Name</p>
+          <p className="header-text">Money Bluff</p>
         </header>
         <div className="list-container">
           <table className="list-table">
@@ -70,4 +85,7 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.contextType = UserInfoContext;
+
 export default Home;

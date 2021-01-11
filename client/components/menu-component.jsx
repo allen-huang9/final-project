@@ -1,4 +1,5 @@
 import React from 'react';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class Menu extends React.Component {
   constructor(props) {
@@ -30,8 +31,9 @@ class Menu extends React.Component {
         </div>
         <div className={displayStatus} onClick={this.handleClick}>
           <div className='open-menu'>
-            <a className='pl-2 d-flex align-items-center' href='#'>Home</a>
+            <a className='pl-2 d-flex align-items-center' href='#home'>Home</a>
             <a className='pl-2 d-flex align-items-center' href='#monthly-expense'>Monthly Expense</a>
+            <div className='pl-2 d-flex align-items-center' onClick={this.context.handleSignOut}>Sign Out</div>
           </div>
         </div>
 
@@ -40,4 +42,5 @@ class Menu extends React.Component {
   }
 }
 
+Menu.contextType = UserInfoContext;
 export default Menu;

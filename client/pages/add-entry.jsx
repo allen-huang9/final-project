@@ -1,5 +1,6 @@
 import React from 'react';
 import Menu from '../components/menu-component';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class AddEntry extends React.Component {
   constructor(props) {
@@ -9,10 +10,10 @@ class AddEntry extends React.Component {
       categoryList: [],
       entry: {
         categoryId: 1,
-        date: `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()}`,
+        date: `${dateObject.getFullYear()}-${('0' + (dateObject.getMonth() + 1)).slice(-2)}-${('0' + dateObject.getDate()).slice(-2)}`,
         amount: '',
         description: '',
-        userId: 1
+        userId: null
       }
 
     };
@@ -21,10 +22,18 @@ class AddEntry extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/category-table')
-      .then(response => response.json())
-      .then(categoryList => this.setState({ categoryList }));
+    const userEntry = this.state.entry;
+    userEntry.userId = this.context.user.userId;
 
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch('/api/category-table', init)
+      .then(response => response.json())
+      .then(categoryList => this.setState({ categoryList, entry: userEntry }));
   }
 
   handleChange(event) {
@@ -40,7 +49,8 @@ class AddEntry extends React.Component {
     const req = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Access-Token': this.context.token
       },
       body: JSON.stringify(this.state.entry)
     };
@@ -50,10 +60,10 @@ class AddEntry extends React.Component {
         const dateObject = new Date();
         const defaultValue = {
           categoryId: 1,
-          date: `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()}`,
+          date: `${dateObject.getFullYear()}-${('0' + (dateObject.getMonth() + 1)).slice(-2)}-${('0' + dateObject.getDate()).slice(-2)}`,
           amount: '',
           description: '',
-          userId: 1
+          userId: this.context.user.userId
         };
 
         this.setState({ entry: defaultValue });
@@ -126,5 +136,7 @@ class AddEntry extends React.Component {
     );
   }
 }
+
+AddEntry.contextType = UserInfoContext;
 
 export default AddEntry;

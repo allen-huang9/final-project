@@ -101,12 +101,18 @@ header {
 }
 
 .open-menu a {
+  color: black;
   height: 10%;
   text-decoration: none;
 }
 
 .open-menu a:hover {
   background-color: #3ea8a8;
+}
+
+.open-menu div {
+  color: black;
+  height: 10%;
 }
 
 .modal-background {
@@ -133,6 +139,10 @@ header {
   margin: auto;
   padding: 0 10px;
   color: #020d0d;
+}
+
+.sign-in-form-container {
+  height: calc(100vh - 50px);
 }
 
 #root {

@@ -1,9 +1,12 @@
 require('dotenv/config');
 const express = require('express');
 const pg = require('pg');
+const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
+const authorizationMiddleware = require('./authorization-middleware');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL
@@ -14,6 +17,48 @@ const jsonMiddleWare = express.json();
 
 app.use(staticMiddleware);
 app.use(jsonMiddleWare);
+
+app.post('/api/sign-in', (req, res, next) => {
+  const sql = `select "userId", "hashpassword" from "users"
+               where "username" = $1`;
+
+  const userName = req.body.username;
+  const hashedPassword = req.body.password;
+
+  if (!userName || !hashedPassword) {
+    throw new ClientError(401, 'Invalid login. missing');
+  }
+
+  const params = [userName];
+
+  db.query(sql, params)
+    .then(usersList => {
+
+      const [user] = usersList.rows;
+
+      if (!user) {
+        throw new ClientError(401, 'Invalid login. user');
+      }
+
+      argon2.verify(user.hashpassword, hashedPassword)
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'Invalid login. pw');
+          }
+          const payload = {
+            userId: user.userId,
+            username: userName
+          };
+
+          const signedToken = jwt.sign(payload, process.env.TOKEN_SECRET);
+          res.status(200).json({ signedToken, user: payload });
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
+app.use(authorizationMiddleware);
 
 /**
  * route returns all entries that the user has
@@ -26,6 +71,7 @@ app.get('/api/entries/:userId', (req, res, next) => {
   const userId = parseInt(req.params.userId, 10);
 
   if (!userId || userId < 0 || !Number.isInteger(userId)) {
+
     throw new ClientError(401, 'User must be logged in');
   }
 

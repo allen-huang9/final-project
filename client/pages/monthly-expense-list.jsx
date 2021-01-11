@@ -2,12 +2,13 @@ import React from 'react';
 import Menu from '../components/menu-component';
 import Chart from 'chart.js';
 import JSPDF from 'jspdf';
+import UserInfoContext from '../lib/UserInfoContext';
 
 class MonthlyExpenseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      monthlyExpenseList: [],
+      monthlyExpenseList: null,
       modalDisplay: false,
       totalSpent: 0,
       categoryInfo: [],
@@ -21,7 +22,13 @@ class MonthlyExpenseList extends React.Component {
 
   componentDidMount() {
 
-    fetch('/api/monthly-expense/' + 1)
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch('/api/monthly-expense/' + this.context.user.userId, init)
       .then(response => response.json())
       .then(monthlyExpenseList => {
         this.setState({ monthlyExpenseList });
@@ -51,7 +58,7 @@ class MonthlyExpenseList extends React.Component {
   }
 
   handleClick(event) {
-    const userId = 1;
+    const userId = this.context.user.userId;
     let date = event.target.id.split(' ');
     date = date.filter(value => value !== '');
 
@@ -60,7 +67,13 @@ class MonthlyExpenseList extends React.Component {
 
     let totalExpense = 0;
 
-    fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`)
+    const customHeader = new Headers();
+    customHeader.append('X-Access-Token', this.context.token);
+    const init = {
+      method: 'GET',
+      headers: customHeader
+    };
+    fetch(`/api/monthly-expense-graph/${userId}/${date[0]}/${date[1]}`, init)
       .then(response => response.json())
       .then(list => {
 
@@ -133,6 +146,11 @@ class MonthlyExpenseList extends React.Component {
   }
 
   render() {
+
+    if (!this.state.monthlyExpenseList) {
+      return <div>LOADING...</div>;
+    }
+
     let modalVisibility = 'd-none';
 
     if (this.state.modalDisplay) {
@@ -195,5 +213,7 @@ class MonthlyExpenseList extends React.Component {
     );
   }
 }
+
+MonthlyExpenseList.contextType = UserInfoContext;
 
 export default MonthlyExpenseList;
