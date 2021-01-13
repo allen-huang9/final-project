@@ -27,7 +27,14 @@ A full stack web application for anyone that wants to record their expenses and 
 * User can sign in
 * User can sign out
 
-# Getting Started
+# Development
+
+## System Requirements
+* Node.js 10 or higher
+* NPM 6 or higher
+* PostgreSQL 10 or higher
+
+## Getting Started
 1. Clone the repository
    ```
    Git clone https://github.com/allen-huang9/final-project.git
