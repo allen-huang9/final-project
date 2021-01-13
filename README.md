@@ -17,6 +17,16 @@ A full stack web application for anyone that wants to record their expenses and 
 * chart.js
 * jspdf
 
+# Features
+* User can view a list of entries
+* User can add an entry
+* User can edit an entry
+* User can view a list of total monthly expenses
+* User can view their monthly expenses by category in the form of a bar chart
+* User can export graph to pdf file
+* User can sign in
+* User can sign out
+
 # Getting Started
 1. Clone the repository
    ```
