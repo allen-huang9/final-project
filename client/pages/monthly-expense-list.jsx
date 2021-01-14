@@ -193,7 +193,7 @@ class MonthlyExpenseList extends React.Component {
     if (!this.state.monthlyExpenseList) {
       return (
         <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-          <div className="spinner-border text-primary spinner-config"></div>;
+          <div className="spinner-border text-primary spinner-config"></div>
         </div>
       );
     }
