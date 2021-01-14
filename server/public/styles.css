@@ -29,6 +29,7 @@ header {
 }
 
 .add-entry-button {
+  color: white;
   font-size: 2rem;
   background-color: #3ea8a8;
   width: 50px;
@@ -39,8 +40,21 @@ header {
   bottom: 10px;
 }
 
+.add-entry-button:hover {
+  cursor: pointer;
+}
+
+.entries-table-font-size {
+  font-size: 18px;
+}
+
 .list-table {
   width: 100%;
+}
+
+.list-table a {
+  color: #020d0d;
+  text-decoration: none;
 }
 
 .list-table td,
@@ -55,11 +69,11 @@ header {
   width: 75%;
   margin: auto;
   padding: 0 10px;
-  color: #020d0d;
+  color: white;
 }
 
 .view-single-entry-button:hover {
-  color: #020d0d;
+  color: white;
   text-decoration: none;
 }
 
