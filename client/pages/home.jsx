@@ -61,11 +61,14 @@ class Home extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">Money Bluff</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
-        <div className="list-container">
+        <div className="list-container pt-1">
+          <div className="text-center">
+            <h4>All Expenses</h4>
+          </div>
           <table className="list-table">
-            <thead>
+            <thead className="w-100">
               <tr>
                 <th>Date</th>
                 <th>Amount</th>

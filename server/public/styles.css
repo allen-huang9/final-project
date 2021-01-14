@@ -64,14 +64,12 @@ header {
 }
 
 .list-container {
-  display: flex;
-  justify-content: center;
   overflow-y: auto;
   height: calc(100vh - 50px);
 }
 
 .single-entry-container {
-  padding-top: 15%;
+  padding-top: 5%;
   height: calc(100vh - 50px);
 }
 

@@ -34,9 +34,12 @@ class SingleEntry extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">{`Entry ${this.props.entryId}`}</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
         <div className="single-entry-container">
+          <div className="text-center py-2">
+            <h4>{`Entry ${this.props.entryId}`}</h4>
+          </div>
           <table className="w-100 p-1">
             <tbody>
               <tr>

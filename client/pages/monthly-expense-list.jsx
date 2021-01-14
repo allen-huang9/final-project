@@ -166,7 +166,7 @@ class MonthlyExpenseList extends React.Component {
           <td>{date}</td>
           <td>${monthlyExpense.sum}</td>
           <td className="p-1">
-            <div className="view-single-entry-button text-center" id={date} onClick={this.handleClick}>
+            <div className="view-single-entry-button text-center btn" id={date} onClick={this.handleClick}>
               view
             </div>
           </td>
@@ -178,9 +178,12 @@ class MonthlyExpenseList extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">Monthly Expenses</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
-        <div className="list-container">
+        <div className="list-container pt-2">
+          <div className="text-center">
+            <h4>Monthly Expenses</h4>
+          </div>
           <table className="list-table">
             <thead>
               <tr>
@@ -202,9 +205,9 @@ class MonthlyExpenseList extends React.Component {
                 </div>
                 <canvas ref={this.graph}></canvas>
               </div>
-              <div className="d-flex pt-2 pr-2">
+              <div className="d-flex pt-4 pr-2">
                 <div className="p-2 w-75"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>
-                <div className="download-button" onClick={this.handleDownload}>Download</div>
+                <div className="download-button btn" onClick={this.handleDownload}>Download</div>
               </div>
             </div>
           </div>

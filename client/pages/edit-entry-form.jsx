@@ -83,9 +83,12 @@ class EditForm extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">{`Entry ${entry.entryId}`}</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
-        <div className="h-100 mt-5 d-flex justify-content-center">
+        <div className="text-center py-2">
+          <h4>{`Entry ${entry.entryId}`}</h4>
+        </div>
+        <div className="pt-1 d-flex justify-content-center">
           <form onSubmit={this.handleSubmit} className="w-100">
               <div className="mx-2 form-group">
               <label htmlFor="category">Category</label>
