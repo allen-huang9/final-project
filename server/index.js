@@ -67,7 +67,9 @@ app.get('/api/entries/:userId', (req, res, next) => {
 
   const sql = `select "entryId", "amount", TO_CHAR("date" :: DATE, 'mm/dd/yyyy') as "date"
                from "entry" join "category" using ("categoryId")
-               where "userId" = $1`;
+               where "userId" = $1
+               order by "date"::DATE desc`;
+
   const userId = parseInt(req.params.userId, 10);
 
   if (!userId || userId < 0 || !Number.isInteger(userId)) {
