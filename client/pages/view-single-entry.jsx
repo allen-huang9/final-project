@@ -64,7 +64,7 @@ class SingleEntry extends React.Component {
             </tbody>
           </table>
           <div className="d-flex justify-content-center mt-3">
-            <a className="btn btn-success"
+            <a className="btn button-config"
                href={`#edit-form?entryId=${this.props.entryId}`}>
                  Edit
             </a>

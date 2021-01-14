@@ -44,6 +44,11 @@ header {
   cursor: pointer;
 }
 
+.button-config {
+  color: white;
+  background-color: #3ea8a8;
+}
+
 .entries-table-font-size {
   font-size: 18px;
 }

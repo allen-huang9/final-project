@@ -130,7 +130,7 @@ class EditForm extends React.Component {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-              <button className="btn btn-success">Save</button>
+              <button className="btn button-config">Save</button>
             </div>
           </form>
         </div>

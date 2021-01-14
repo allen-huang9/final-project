@@ -131,7 +131,7 @@ class AddEntry extends React.Component {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-              <button className="btn btn-success">Add</button>
+              <button className="btn button-config">Add</button>
             </div>
           </form>
         </div>
