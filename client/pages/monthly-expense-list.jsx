@@ -15,6 +15,7 @@ class MonthlyExpenseList extends React.Component {
       monthYear: []
     };
     this.graph = React.createRef();
+    this.invisibleGraph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
     this.handleClickCloseModal = this.handleClickCloseModal.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
@@ -37,18 +38,14 @@ class MonthlyExpenseList extends React.Component {
   }
 
   handleDownload() {
-    const canvasImage = this.graph.current.toDataURL();
-    const doc = new JSPDF('landscape', 'px');
-    const imageWidth = 477.4;
-    const imageHeight = 403.2;
+    const canvasImage = this.invisibleGraph.current.toDataURL();
+    const doc = new JSPDF('portrait', 'px');
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-    const graphPositionX = (pageWidth - imageWidth) / 2;
-    const graphPositionY = (pageHeight - imageHeight) / 2 - 20;
     const textPositionX = (pageWidth / 2) - 70;
-    const textPositionY = pageHeight - 20;
-    doc.addImage(canvasImage, 'JPEG', graphPositionX, graphPositionY, imageWidth, imageHeight);
-    doc.setFontSize(25);
+    const textPositionY = 55;
+    doc.addImage(canvasImage, 'JPEG', 0, 0, pageWidth, pageHeight);
+    doc.setFontSize(22);
     doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, textPositionX, textPositionY);
     doc.save(`${this.state.monthYear[0]}-${this.state.monthYear[1]}.pdf`);
   }
@@ -90,6 +87,52 @@ class MonthlyExpenseList extends React.Component {
 
         // eslint-disable-next-line no-unused-vars
         const barChart = new Chart(this.graph.current.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: categoryNames,
+            datasets: [{
+              barPercentage: 0.9,
+              minBarLength: 0,
+              backgroundColor: [
+                '#ff2e2e',
+                '#9933ff',
+                '#3381ff',
+                '#33ff92',
+                '#adff33',
+                '#de38ff'
+              ],
+              data: spentOnCategory
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `${date[0]} ${date[1]}`
+            },
+            legend: {
+              display: false
+            },
+            scales: {
+              xAxes: [{
+                ticks: {
+                  fontSize: 12
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  fontSize: 9,
+                  lineHeight: 3,
+                  beginAtZero: true
+                }
+              }]
+            },
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+
+        // eslint-disable-next-line no-unused-vars
+        const invisibleBarChart = new Chart(this.invisibleGraph.current.getContext('2d'), {
           type: 'bar',
           data: {
             labels: categoryNames,
@@ -213,6 +256,7 @@ class MonthlyExpenseList extends React.Component {
                   <i className="fas fa-times"></i>
                 </div>
                 <canvas ref={this.graph}></canvas>
+                <canvas ref={this.invisibleGraph} className="d-none pdfGraph"></canvas>
               </div>
               <div className="d-flex pt-4 pr-2">
                 <div className="p-2 w-75"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>

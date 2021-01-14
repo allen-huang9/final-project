@@ -167,6 +167,11 @@ header {
   height: 3rem;
 }
 
+.pdfGraph {
+  width: 631.41px;
+  height: 446.46px;
+}
+
 #root {
   height: 100vh;
 }
