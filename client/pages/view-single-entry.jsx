@@ -25,7 +25,11 @@ class SingleEntry extends React.Component {
 
   render() {
     if (!this.state.entry) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>;
+        </div>
+      );
     }
 
     const { amount, description, date, category } = this.state.entry;

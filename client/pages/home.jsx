@@ -39,7 +39,11 @@ class Home extends React.Component {
 
     const entriesList = this.state.entryList;
     if (!entriesList) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>;
+        </div>
+      );
     }
 
     const entryListItems = this.state.entryList.map(entry => {
@@ -64,6 +68,7 @@ class Home extends React.Component {
         <header>
           <Menu />
           <h2 className="header-text m-0">Money Bluff</h2>
+
         </header>
         <div className="list-container pt-1">
           <div className="text-center">

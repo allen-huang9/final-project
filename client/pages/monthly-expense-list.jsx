@@ -148,7 +148,11 @@ class MonthlyExpenseList extends React.Component {
   render() {
 
     if (!this.state.monthlyExpenseList) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>;
+        </div>
+      );
     }
 
     let modalVisibility = 'd-none';

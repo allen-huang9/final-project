@@ -64,7 +64,11 @@ class EditForm extends React.Component {
 
     const entry = this.state.entry;
     if (!entry) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>;
+        </div>
+      );
     }
 
     const dateComponents = entry.date.split('/');
