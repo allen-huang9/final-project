@@ -43,10 +43,14 @@ class Home extends React.Component {
     }
 
     const entryListItems = this.state.entryList.map(entry => {
+      let formattedAmount = new Intl.NumberFormat().format(parseFloat(parseFloat(entry.amount).toFixed(2)));
+      if (!formattedAmount.includes('.')) {
+        formattedAmount += '.00';
+      }
       return (
         <tr key={entry.entryId}>
           <td>{entry.date}</td>
-          <td>${parseFloat(entry.amount).toFixed(2)}</td>
+          <td>${formattedAmount}</td>
           <td>
             <a className="view-single-entry-button"
               href={`#single-entry?entryId=${entry.entryId}`}>

@@ -29,7 +29,10 @@ class SingleEntry extends React.Component {
     }
 
     const { amount, description, date, category } = this.state.entry;
-
+    let formattedAmount = new Intl.NumberFormat().format(parseFloat(parseFloat(amount).toFixed(2)));
+    if (!formattedAmount.includes('.')) {
+      formattedAmount += '.00';
+    }
     return (
       <>
         <header>
@@ -52,7 +55,7 @@ class SingleEntry extends React.Component {
               </tr>
               <tr>
                 <th className="entry-information-table-th">Amount:</th>
-                <td> ${parseFloat(amount).toFixed(2)} </td>
+                <td> ${formattedAmount} </td>
               </tr>
               <tr>
                 <th className="entry-information-table-th">Description:</th>

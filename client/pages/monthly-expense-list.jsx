@@ -161,10 +161,15 @@ class MonthlyExpenseList extends React.Component {
 
       const date = monthlyExpense.month;
 
+      let formattedAmount = new Intl.NumberFormat().format(parseFloat(parseFloat(monthlyExpense.sum).toFixed(2)));
+      if (!formattedAmount.includes('.')) {
+        formattedAmount += '.00';
+      }
+
       return (
         <tr key={date}>
           <td>{date}</td>
-          <td>${parseFloat(monthlyExpense.sum).toFixed(2)}</td>
+          <td>${formattedAmount}</td>
           <td className="p-1">
             <div className="view-single-entry-button text-center btn" id={date} onClick={this.handleClick}>
               view
