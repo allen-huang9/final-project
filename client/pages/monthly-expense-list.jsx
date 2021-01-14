@@ -164,7 +164,7 @@ class MonthlyExpenseList extends React.Component {
       return (
         <tr key={date}>
           <td>{date}</td>
-          <td>${monthlyExpense.sum}</td>
+          <td>${parseFloat(monthlyExpense.sum).toFixed(2)}</td>
           <td className="p-1">
             <div className="view-single-entry-button text-center btn" id={date} onClick={this.handleClick}>
               view

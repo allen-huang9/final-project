@@ -52,7 +52,7 @@ class SingleEntry extends React.Component {
               </tr>
               <tr>
                 <th className="entry-information-table-th">Amount:</th>
-                <td> ${amount} </td>
+                <td> ${parseFloat(amount).toFixed(2)} </td>
               </tr>
               <tr>
                 <th className="entry-information-table-th">Description:</th>

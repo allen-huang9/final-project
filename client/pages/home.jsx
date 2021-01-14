@@ -46,7 +46,7 @@ class Home extends React.Component {
       return (
         <tr key={entry.entryId}>
           <td>{entry.date}</td>
-          <td>${entry.amount}</td>
+          <td>${parseFloat(entry.amount).toFixed(2)}</td>
           <td>
             <a className="view-single-entry-button"
               href={`#single-entry?entryId=${entry.entryId}`}>
