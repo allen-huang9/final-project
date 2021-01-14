@@ -15,6 +15,7 @@ class MonthlyExpenseList extends React.Component {
       monthYear: []
     };
     this.graph = React.createRef();
+    this.invisibleGraph = React.createRef();
     this.handleClick = this.handleClick.bind(this);
     this.handleClickCloseModal = this.handleClickCloseModal.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
@@ -37,18 +38,14 @@ class MonthlyExpenseList extends React.Component {
   }
 
   handleDownload() {
-    const canvasImage = this.graph.current.toDataURL();
-    const doc = new JSPDF('landscape', 'px');
-    const imageWidth = 477.4;
-    const imageHeight = 403.2;
+    const canvasImage = this.invisibleGraph.current.toDataURL();
+    const doc = new JSPDF('portrait', 'px');
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-    const graphPositionX = (pageWidth - imageWidth) / 2;
-    const graphPositionY = (pageHeight - imageHeight) / 2 - 20;
     const textPositionX = (pageWidth / 2) - 70;
-    const textPositionY = pageHeight - 20;
-    doc.addImage(canvasImage, 'JPEG', graphPositionX, graphPositionY, imageWidth, imageHeight);
-    doc.setFontSize(25);
+    const textPositionY = 55;
+    doc.addImage(canvasImage, 'JPEG', 0, 0, pageWidth, pageHeight);
+    doc.setFontSize(22);
     doc.text(`Total spent: $${this.state.totalSpent.toFixed(2)}`, textPositionX, textPositionY);
     doc.save(`${this.state.monthYear[0]}-${this.state.monthYear[1]}.pdf`);
   }
@@ -134,6 +131,52 @@ class MonthlyExpenseList extends React.Component {
           }
         });
 
+        // eslint-disable-next-line no-unused-vars
+        const invisibleBarChart = new Chart(this.invisibleGraph.current.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: categoryNames,
+            datasets: [{
+              barPercentage: 0.9,
+              minBarLength: 0,
+              backgroundColor: [
+                '#ff2e2e',
+                '#9933ff',
+                '#3381ff',
+                '#33ff92',
+                '#adff33',
+                '#de38ff'
+              ],
+              data: spentOnCategory
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `${date[0]} ${date[1]}`
+            },
+            legend: {
+              display: false
+            },
+            scales: {
+              xAxes: [{
+                ticks: {
+                  fontSize: 12
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  fontSize: 9,
+                  lineHeight: 3,
+                  beginAtZero: true
+                }
+              }]
+            },
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+
         this.setState({
           totalSpent: totalExpense,
           categoryInfo: list
@@ -148,7 +191,11 @@ class MonthlyExpenseList extends React.Component {
   render() {
 
     if (!this.state.monthlyExpenseList) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>
+        </div>
+      );
     }
 
     let modalVisibility = 'd-none';
@@ -161,12 +208,17 @@ class MonthlyExpenseList extends React.Component {
 
       const date = monthlyExpense.month;
 
+      let formattedAmount = new Intl.NumberFormat().format(parseFloat(parseFloat(monthlyExpense.sum).toFixed(2)));
+      if (!formattedAmount.includes('.')) {
+        formattedAmount += '.00';
+      }
+
       return (
         <tr key={date}>
           <td>{date}</td>
-          <td>${monthlyExpense.sum}</td>
+          <td>${formattedAmount}</td>
           <td className="p-1">
-            <div className="view-single-entry-button text-center" id={date} onClick={this.handleClick}>
+            <div className="view-single-entry-button text-center btn" id={date} onClick={this.handleClick}>
               view
             </div>
           </td>
@@ -178,9 +230,12 @@ class MonthlyExpenseList extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">Monthly Expenses</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
-        <div className="list-container">
+        <div className="list-container pt-2">
+          <div className="text-center">
+            <h4>Monthly Expenses</h4>
+          </div>
           <table className="list-table">
             <thead>
               <tr>
@@ -201,10 +256,11 @@ class MonthlyExpenseList extends React.Component {
                   <i className="fas fa-times"></i>
                 </div>
                 <canvas ref={this.graph}></canvas>
+                <canvas ref={this.invisibleGraph} className="d-none pdfGraph"></canvas>
               </div>
-              <div className="d-flex pt-2 pr-2">
+              <div className="d-flex pt-4 pr-2">
                 <div className="p-2 w-75"> {'Total spent: $' + this.state.totalSpent.toFixed(2)} </div>
-                <div className="download-button" onClick={this.handleDownload}>Download</div>
+                <div className="download-button btn" onClick={this.handleDownload}>Download</div>
               </div>
             </div>
           </div>

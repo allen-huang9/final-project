@@ -64,7 +64,11 @@ class EditForm extends React.Component {
 
     const entry = this.state.entry;
     if (!entry) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>
+        </div>
+      );
     }
 
     const dateComponents = entry.date.split('/');
@@ -83,9 +87,12 @@ class EditForm extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">{`Entry ${entry.entryId}`}</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
-        <div className="h-100 mt-5 d-flex justify-content-center">
+        <div className="text-center py-2">
+          <h4>{`Entry ${entry.entryId}`}</h4>
+        </div>
+        <div className="pt-1 d-flex justify-content-center">
           <form onSubmit={this.handleSubmit} className="w-100">
               <div className="mx-2 form-group">
               <label htmlFor="category">Category</label>
@@ -127,7 +134,7 @@ class EditForm extends React.Component {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-              <button className="btn btn-success">Save</button>
+              <button className="btn button-config">Save</button>
             </div>
           </form>
         </div>

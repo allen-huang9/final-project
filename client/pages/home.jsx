@@ -39,20 +39,26 @@ class Home extends React.Component {
 
     const entriesList = this.state.entryList;
     if (!entriesList) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>
+        </div>
+      );
     }
 
     const entryListItems = this.state.entryList.map(entry => {
+      let formattedAmount = new Intl.NumberFormat().format(parseFloat(parseFloat(entry.amount).toFixed(2)));
+      if (!formattedAmount.includes('.')) {
+        formattedAmount += '.00';
+      }
       return (
-        <tr key={entry.entryId}>
+        <tr key={entry.entryId} className="d-flex justify-content-around">
           <td>{entry.date}</td>
-          <td>${entry.amount}</td>
           <td>
-            <a className="view-single-entry-button"
-              href={`#single-entry?entryId=${entry.entryId}`}>
-                View
-            </a>
-          </td>
+            <a href={`#single-entry?entryId=${entry.entryId}`}>
+                ${formattedAmount}
+              </a>
+            </td>
         </tr>
       );
     });
@@ -61,17 +67,21 @@ class Home extends React.Component {
       <>
         <header>
           <Menu />
-          <p className="header-text">Money Bluff</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
+
         </header>
-        <div className="list-container">
-          <table className="list-table">
-            <thead>
-              <tr>
+        <div className="list-container pt-1">
+          <div className="text-center">
+            <h4>All Expenses</h4>
+          </div>
+          <table className="list-table entries-table-font-size">
+            <thead className="w-100 text-center">
+              <tr className="d-flex justify-content-around">
                 <th>Date</th>
                 <th>Amount</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-center">
               {entryListItems}
             </tbody>
           </table>

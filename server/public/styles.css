@@ -29,6 +29,7 @@ header {
 }
 
 .add-entry-button {
+  color: white;
   font-size: 2rem;
   background-color: #3ea8a8;
   width: 50px;
@@ -39,8 +40,26 @@ header {
   bottom: 10px;
 }
 
+.add-entry-button:hover {
+  cursor: pointer;
+}
+
+.button-config {
+  color: white;
+  background-color: #3ea8a8;
+}
+
+.entries-table-font-size {
+  font-size: 18px;
+}
+
 .list-table {
   width: 100%;
+}
+
+.list-table a {
+  color: #020d0d;
+  text-decoration: none;
 }
 
 .list-table td,
@@ -55,23 +74,21 @@ header {
   width: 75%;
   margin: auto;
   padding: 0 10px;
-  color: #020d0d;
+  color: white;
 }
 
 .view-single-entry-button:hover {
-  color: #020d0d;
+  color: white;
   text-decoration: none;
 }
 
 .list-container {
-  display: flex;
-  justify-content: center;
   overflow-y: auto;
   height: calc(100vh - 50px);
 }
 
 .single-entry-container {
-  padding-top: 15%;
+  padding-top: 5%;
   height: calc(100vh - 50px);
 }
 
@@ -95,7 +112,7 @@ header {
 }
 
 .open-menu {
-  width: 140px;
+  width: 160px;
   height: calc(100vh - 50px);
   background-color: white;
 }
@@ -138,11 +155,21 @@ header {
   border-radius: 5px;
   margin: auto;
   padding: 0 10px;
-  color: #020d0d;
+  color: white;
 }
 
 .sign-in-form-container {
   height: calc(100vh - 50px);
+}
+
+.spinner-config {
+  width: 3rem;
+  height: 3rem;
+}
+
+.pdfGraph {
+  width: 631.41px;
+  height: 446.46px;
 }
 
 #root {

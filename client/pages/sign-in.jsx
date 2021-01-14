@@ -43,7 +43,7 @@ class SignIn extends React.Component {
     return (
       <>
         <header className="d-flex justify-content-center">
-          <p className="header-text">Money Bluff</p>
+          <h1 className="header-text m-0">Money Bluff</h1>
         </header>
         <div className="sign-in-form-container pt-5 d-flex justify-content-center">
           <form className="w-75" onSubmit={this.handleSubmit}>

@@ -25,18 +25,28 @@ class SingleEntry extends React.Component {
 
   render() {
     if (!this.state.entry) {
-      return <div>LOADING...</div>;
+      return (
+        <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary spinner-config"></div>
+        </div>
+      );
     }
 
     const { amount, description, date, category } = this.state.entry;
-
+    let formattedAmount = new Intl.NumberFormat().format(parseFloat(parseFloat(amount).toFixed(2)));
+    if (!formattedAmount.includes('.')) {
+      formattedAmount += '.00';
+    }
     return (
       <>
         <header>
           <Menu />
-          <p className="header-text">{`Entry ${this.props.entryId}`}</p>
+          <h2 className="header-text m-0">Money Bluff</h2>
         </header>
         <div className="single-entry-container">
+          <div className="text-center py-2">
+            <h4>{`Entry ${this.props.entryId}`}</h4>
+          </div>
           <table className="w-100 p-1">
             <tbody>
               <tr>
@@ -49,7 +59,7 @@ class SingleEntry extends React.Component {
               </tr>
               <tr>
                 <th className="entry-information-table-th">Amount:</th>
-                <td> ${amount} </td>
+                <td> ${formattedAmount} </td>
               </tr>
               <tr>
                 <th className="entry-information-table-th">Description:</th>
@@ -58,7 +68,7 @@ class SingleEntry extends React.Component {
             </tbody>
           </table>
           <div className="d-flex justify-content-center mt-3">
-            <a className="btn btn-success"
+            <a className="btn button-config"
                href={`#edit-form?entryId=${this.props.entryId}`}>
                  Edit
             </a>
