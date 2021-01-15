@@ -147,6 +147,7 @@ header {
 }
 
 .modal-pop-up-bg {
+  border-radius: 0.25rem;
   background-color: white;
 }
 
