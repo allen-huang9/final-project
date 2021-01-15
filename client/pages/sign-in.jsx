@@ -7,10 +7,43 @@ class SignIn extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      isDisabled: false
     };
+    this.usernameInput = React.createRef();
+    this.passwordInput = React.createRef();
+    this.handleDemo = this.handleDemo.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleDemo() {
+    const demoUsers = [
+      {
+        username: 'fredCh4',
+        password: 'password1'
+      },
+      {
+        username: 'Jace',
+        password: 'testuser'
+      },
+      {
+        username: 'AlvinMa',
+        password: 'l@Ndfi11'
+      }
+    ];
+
+    const demoUserIndex = Math.floor(Math.random() * 3);
+    const demoUser = demoUsers[demoUserIndex];
+
+    const username = this.usernameInput.current.value = demoUser.username;
+    const password = this.passwordInput.current.value = demoUser.password;
+
+    this.setState({
+      username,
+      password,
+      isDisabled: true
+    });
   }
 
   handleChange(event) {
@@ -34,7 +67,6 @@ class SignIn extends React.Component {
       .then(response => {
         if (response.user && response.signedToken) {
           this.context.handleSignIn(response);
-          window.location.hash = 'home';
         }
       });
   }
@@ -49,27 +81,36 @@ class SignIn extends React.Component {
           <form className="w-75" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
-              <input className="form-control"
+              <input ref={this.usernameInput}
+                className="form-control"
                 required
                 type="text"
                 name="username"
                 id="username"
+                disabled={this.state.isDisabled}
                 onChange={this.handleChange}>
               </input>
             </div>
 
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input className="form-control"
+              <input ref={this.passwordInput}
+                className="form-control"
                 required
                 type="password"
                 name="password"
                 id="password"
+                disabled={this.state.isDisabled}
                 onChange={this.handleChange}>
               </input>
             </div>
             <div className="d-flex justify-content-center">
               <button className="btn btn-success w-50">Sign In</button>
+            </div>
+
+            <div onClick={this.handleDemo}
+              className="d-flex justify-content-center btn btn-success mt-3 mx-auto w-50 ">
+              Demo
             </div>
           </form>
         </div>

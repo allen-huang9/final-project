@@ -57,6 +57,7 @@ export default class App extends React.Component {
   handleSignIn(result) {
     const { user, signedToken } = result;
     window.localStorage.setItem('money-token', signedToken);
+    window.location.hash = 'home';
     this.setState({ user, signedToken });
   }
 
