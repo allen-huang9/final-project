@@ -100,7 +100,7 @@ export default class App extends React.Component {
     if (this.state.isAuthorizing) {
       return (
         <UserInfoContext.Provider value={context}>
-          <SignIn />;
+          <SignIn />
         </UserInfoContext.Provider>
       );
     }

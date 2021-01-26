@@ -83,6 +83,7 @@ header {
 }
 
 .list-container {
+  width: 50%;
   overflow-y: auto;
   height: calc(100vh - 50px);
 }
@@ -160,6 +161,7 @@ header {
 }
 
 .sign-in-form-container {
+  max-width: 600px;
   height: calc(100vh - 50px);
 }
 
