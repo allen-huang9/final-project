@@ -3,6 +3,7 @@
 }
 
 body {
+  min-width: 500px;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
 }
@@ -45,6 +46,7 @@ header {
 }
 
 .button-config {
+  width: 150px;
   color: white;
   background-color: #3ea8a8;
 }
@@ -83,13 +85,16 @@ header {
 }
 
 .list-container {
-  width: 50%;
+  max-width: 600px;
+  margin: 0 auto;
   overflow-y: auto;
   height: calc(100vh - 50px);
 }
 
 .single-entry-container {
-  padding-top: 5%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 15px;
   height: calc(100vh - 50px);
 }
 
@@ -143,11 +148,13 @@ header {
 }
 
 .canvas-background {
+  max-width: 600px;
   height: 60vh;
   width: 90vw;
 }
 
 .modal-pop-up-bg {
+  max-width: 600px;
   border-radius: 0.25rem;
   background-color: white;
 }
@@ -163,6 +170,12 @@ header {
 .sign-in-form-container {
   max-width: 600px;
   height: calc(100vh - 50px);
+}
+
+.add-entry-form,
+.edit-entry-form {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .spinner-config {
