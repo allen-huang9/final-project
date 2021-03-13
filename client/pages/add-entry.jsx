@@ -90,7 +90,7 @@ class AddEntry extends React.Component {
           <h4>Add Entry</h4>
         </div>
         <div className="d-flex justify-content-center">
-          <form onSubmit={this.handleSubmit} className="w-100">
+          <form onSubmit={this.handleSubmit} className="add-entry-form w-100">
             <div className="mx-2 form-group">
               <label htmlFor="category">Category</label>
               <select className="form-control"

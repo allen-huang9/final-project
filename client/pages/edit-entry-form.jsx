@@ -93,7 +93,7 @@ class EditForm extends React.Component {
           <h4>{`Entry ${entry.entryId}`}</h4>
         </div>
         <div className="pt-1 d-flex justify-content-center">
-          <form onSubmit={this.handleSubmit} className="w-100">
+          <form onSubmit={this.handleSubmit} className="edit-entry-form w-100">
               <div className="mx-2 form-group">
               <label htmlFor="category">Category</label>
               <select className="form-control"

@@ -58,12 +58,13 @@ export default class App extends React.Component {
     const { user, signedToken } = result;
     window.localStorage.setItem('money-token', signedToken);
     window.location.hash = 'home';
-    this.setState({ user, signedToken });
+    this.setState({ user, signedToken, isAuthorizing: false });
+
   }
 
   handleSignOut() {
     window.localStorage.removeItem('money-token');
-    this.setState({ user: null, signedToken: null });
+    this.setState({ user: null, signedToken: null, isAuthorizing: true });
     window.location.hash = '';
   }
 
@@ -100,7 +101,7 @@ export default class App extends React.Component {
     if (this.state.isAuthorizing) {
       return (
         <UserInfoContext.Provider value={context}>
-          <SignIn />;
+          <SignIn />
         </UserInfoContext.Provider>
       );
     }
