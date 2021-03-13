@@ -191,3 +191,9 @@ header {
 #root {
   height: 100vh;
 }
+
+@media only screen and (max-width: 1020px) {
+  body {
+    min-width: auto;
+  }
+}
