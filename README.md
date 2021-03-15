@@ -28,6 +28,7 @@ A full stack web application for anyone that wants to record their expenses and 
 * User can sign out
 
 # Development
+live site: https://money-bluff.allenhuangdev.com/
 
 ## System Requirements
 * Node.js 10 or higher
