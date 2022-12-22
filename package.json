@@ -33,7 +33,7 @@
     "chart.js": "^2.9.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jspdf": "^2.3.1",
     "pg": "^8.5.1",
     "react": "^17.0.1",
